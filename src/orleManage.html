@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
+    <title>角色管理</title>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'west',title:'角色列表',collapsible:false,split:true" style="width:50%">
+        <table id="role_dg"></table>  
+        <div id="role_tbar" style="padding: 5px;">
+            <div style="margin-bottom: 5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append('role_dg')">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit('role_dg')">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept('role_dg')">确定</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject('role_dg')">取消</a>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center'">
+        <div id="role_tabs">   
+            <div title="后台功能菜单" iconCls="">   
+                <div style="padding: 0 0 0 20px;margin: 0px;">
+                    <ul id="pcMenu_ul"></ul>
+                </div>    
+            </div>   
+            <div title="手机功能菜单" iconCls="">   
+                <div style="padding: 0 0 0 20px;margin: 0px;">
+                    <ul id="phoneMenu_ul"></ul>
+                </div>     
+            </div>   
+            <div title="公司组织" iconCls="">   
+                <table id="company_dg"></table>      
+            </div>   
+        </div>  
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/orleManage.js"></script>
+</html>

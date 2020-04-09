@@ -1,0 +1,25 @@
+<!--配送模式-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
+    <title>配送方式</title>
+</head>
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+        <table id="deliveryMode_dg"></table>
+        <div id="deliveryMode_tbar" style="padding: 5px;">
+            <div style="margin-bottom: 5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append('deliveryMode_dg')">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit('deliveryMode_dg')">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept('deliveryMode_dg')">确定</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject('deliveryMode_dg')">取消</a>
+            </div>
+        </div>
+	</div>
+</body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/deliveryMode.js"></script>
+</html>

@@ -1,0 +1,303 @@
+.icon-blank{
+	background:url('icons/blank.gif') no-repeat center center;
+}
+.icon-add{
+	background:url('icons/edit_add.png') no-repeat center center;
+}
+.icon-edit{
+	background:url('icons/pencil.png') no-repeat center center;
+}
+.icon-clear{
+	background:url('icons/clear.png') no-repeat center center;
+}
+.icon-remove{
+	background:url('icons/edit_remove.png') no-repeat center center;
+}
+.icon-save{
+	background:url('icons/filesave.png') no-repeat center center;
+}
+.icon-cut{
+	background:url('icons/cut.png') no-repeat center center;
+}
+.icon-ok{
+	background:url('icons/ok.png') no-repeat center center;
+}
+.icon-no{
+	background:url('icons/no.png') no-repeat center center;
+}
+.icon-cancel{
+	background:url('icons/cancel.png') no-repeat center center;
+}
+.icon-reload{
+	background:url('icons/reload.png') no-repeat center center;
+}
+.icon-search{
+	background:url('icons/search.png') no-repeat center center;
+}
+.icon-print{
+	background:url('icons/print.png') no-repeat center center;
+}
+.icon-help{
+	background:url('icons/help.png') no-repeat center center;
+}
+.icon-undo{
+	background:url('icons/undo.png') no-repeat center center;
+}
+.icon-redo{
+	background:url('icons/redo.png') no-repeat center center;
+}
+.icon-back{
+	background:url('icons/back.png') no-repeat center center;
+}
+.icon-sum{
+	background:url('icons/sum.png') no-repeat center center;
+}
+.icon-tip{
+	background:url('icons/tip.png') no-repeat center center;
+}
+.icon-filter{
+	background:url('icons/filter.png') no-repeat center center;
+}
+.icon-man{
+	background:url('icons/man.png') no-repeat center center;
+}
+.icon-lock{
+	background:url('icons/lock.png') no-repeat center center;
+}
+.icon-more{
+	background:url('icons/more.png') no-repeat center center;
+}
+
+
+.icon-mini-add{
+	background:url('icons/mini_add.png') no-repeat center center;
+}
+.icon-mini-edit{
+	background:url('icons/mini_edit.png') no-repeat center center;
+}
+.icon-mini-refresh{
+	background:url('icons/mini_refresh.png') no-repeat center center;
+}
+
+.icon-large-picture{
+	background:url('icons/large_picture.png') no-repeat center center;
+}
+.icon-large-clipart{
+	background:url('icons/large_clipart.png') no-repeat center center;
+}
+.icon-large-shapes{
+	background:url('icons/large_shapes.png') no-repeat center center;
+}
+.icon-large-smartart{
+	background:url('icons/large_smartart.png') no-repeat center center;
+}
+.icon-large-chart{
+	background:url('icons/large_chart.png') no-repeat center center;
+}
+.icon-load{
+	background:url('icons/load.png') no-repeat center center;
+}
+.icon-out{
+	background:url('icons/out.png') no-repeat center center;
+}
+.icon-house{
+	background:url('icons/house.png') no-repeat center center;
+}
+.icon-cake{
+	background:url('icons/cake.png') no-repeat center center;
+}
+.icon-zhuangzheng{
+	background:url('icons/zhuangzheng.png') no-repeat center center;
+}
+.icon-hetong{
+	background:url('icons/hetong.png') no-repeat center center;
+}
+.icon-zhengjian{
+	background:url('icons/zhengjian.png') no-repeat center center;
+}
+.icon-menu{
+	background:url('icons/menu.png') no-repeat center center;
+}
+.icon-zhuzi{
+	background:url('icons/zhuzi.png') no-repeat center center;
+}
+.icon-group{
+	background:url('icons/group.png') no-repeat center center;
+}
+.icon-clock{
+	background:url('icons/clock.png') no-repeat center center;
+}
+.icon-cog{
+	background:url('icons/cog.png') no-repeat center center;
+}
+.icon-money{
+	background:url('icons/money.png') no-repeat center center;
+}
+.icon-jixiao{
+	background:url('icons/jixiao.png') no-repeat center center;
+}
+.icon-baobiao{
+	background:url('icons/baobiao.png') no-repeat center center;
+}
+.icon-renyuan{
+	background:url('icons/user_edit.png') no-repeat center center;
+}
+.icon-sushe{
+	background:url('icons/sushe.png') no-repeat center center;
+}
+.icon-cup{
+	background:url('icons/cup.png') no-repeat center center;
+}
+.icon-time-add{
+	background:url('icons/time_add.png') no-repeat center center;
+}
+.icon-date{
+	background:url('icons/date.png') no-repeat center center;
+}
+.icon-date-add{
+	background:url('icons/date_add.png') no-repeat center center;
+}
+.icon-bell{
+	background:url('icons/bell.png') no-repeat center center;
+}
+.icon-group-gear{
+	background:url('icons/group_gear.png') no-repeat center center;
+}
+.icon-user{
+	background:url('icons/user.png') no-repeat center center;
+}
+.icon-gangwei{
+	background:url('icons/gangwei.png') no-repeat center center;
+}
+.icon-location{
+	background:url('icons/flag_blue.png') no-repeat center center;
+}
+
+
+.icon-jituan{
+	background:url('icons/_jituan.png') no-repeat center center;
+}
+.icon-banzu{
+	background:url('icons/banzu.png') no-repeat center center;
+}
+.icon-baobiaodaochu{
+	background:url('icons/baobiaodaochu.png') no-repeat center center;
+}
+.icon-company{
+	background:url('icons/company.png') no-repeat center center;
+}
+.icon-dept{
+	background:url('icons/bumen.png') no-repeat center center;
+}
+.icon-office{
+	background:url('icons/office.png') no-repeat center center;
+}
+.icon-zhongyinjituan{
+	background:url('icons/zhongyinjituan.png') no-repeat center center;
+}
+.icon-chengbenhesuan{
+	background:url('icons/chengbenhesuan.png') no-repeat center center;
+}
+.icon-daochumobanxiazai{
+	background:url('icons/daochumobanxiazai.png') no-repeat center center;
+}
+.icon-import{
+	background:url('icons/daoru.png') no-repeat center center;
+}
+.icon-daorudaochu{
+	background:url('icons/daorudaochu.png') no-repeat center center;
+}
+.icon-daorushuju{
+	background:url('icons/daorushuju-.png') no-repeat center center;
+}
+.icon-export{
+	background:url('icons/exceldaochu-.png') no-repeat center center;
+}
+.icon-performance{
+	background:url('icons/jixiao1.png') no-repeat center center;
+}
+.icon-mobandaoru{
+	background:url('icons/mobandaoru-.png') no-repeat center center;
+}
+.icon-monishisuan{
+	background:url('icons/monishisuan.png') no-repeat center center;
+}
+.icon-piliangdaoru{
+	background:url('icons/piliangdaoru.png') no-repeat center center;
+}
+.icon-shangchuanxiazai{
+	background:url('icons/shangchuanxiazai.png') no-repeat center center;
+}
+.icon-shezhi-copy{
+	background:url('icons/shezhi-copy.png') no-repeat center center;
+}
+.icon-shezhi{
+	background:url('icons/shezhi.png') no-repeat center center;
+}
+.icon-tongbu{
+	background:url('icons/tongbu.png') no-repeat center center;
+}
+.icon-zuzhiguanli{
+	background:url('icons/zuzhiguanli.png') no-repeat center center;
+}
+.icon-zhongxin{
+	background:url('icons/zhongxin.png') no-repeat center center;
+}
+.icon-guidang{
+	background:url('icons/guidang.png') no-repeat center center;
+}
+
+.icon-caozuo{
+	background:url('icons/caozuo.png') no-repeat center center;
+}
+.icon-gongzifafang{
+	background:url('icons/gongzifafang.png') no-repeat center center;
+}
+.icon-gongzuojiangcheng{
+	background:url('icons/gongzuojiangcheng.png') no-repeat center center;
+}
+.icon-qita{
+	background:url('icons/qita.png') no-repeat center center;
+}
+.icon-ruzhu{
+	background:url('icons/ruzhu.png') no-repeat center center;
+}
+.icon-shouxufeixinxi{
+	background:url('icons/shouxufeixinxi.png') no-repeat center center;
+}
+.icon-tuisu{
+	background:url('icons/tuisu.png') no-repeat center center;
+}
+.icon-xinzi{
+	background:url('icons/xinzi.png') no-repeat center center;
+}
+.icon-yuangong{
+	background:url('icons/yuangong.png') no-repeat center center;
+}
+.icon-yuangongtouxiang{
+	background:url('icons/yuangongtouxiang.png') no-repeat center center;
+}
+.icon-fenpei{
+	background:url('icons/fenpei.png') no-repeat center center;
+}
+.icon-excel{
+	background:url('icons/page_excel.png') no-repeat center center;
+}
+.icon-thumb_up{
+	background:url('icons/thumb_up.png') no-repeat center center;
+}
+.icon-xieyi{
+	background:url('icons/xieyi.png') no-repeat center center;
+}
+.icon-money-yen{
+	background:url('icons/money_yen.png') no-repeat center center;
+}
+.icon-file-set{
+	background:url('icons/file_set.png') no-repeat center center;
+}
+.icon-file-down{
+	background:url('icons/file_down.png') no-repeat center center;
+}
+.icon-file-up{
+	background:url('icons/file_up.png') no-repeat center center;
+}

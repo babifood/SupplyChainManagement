@@ -1,0 +1,28 @@
+<!--用户状态监控-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
+    <title>用户状态监控</title>
+    
+</head>
+
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+		<table id="userStatusMonitoring_dg"></table>
+		<div id="userStatusMonitoring_tbar">
+			<div style="padding: 0 0 0 7px;color: #333;">
+				用户ID：<input type="text" class="easyui-textbox" id="userId" name="userId" style="width: 160px;"/>
+	        	供应商：<input type="text" class="easyui-textbox" id="supplier" name="supplier" style="width: 160px;"/>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+	        </div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/userStatusMonitoring.js"></script>
+</html>

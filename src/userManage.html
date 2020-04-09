@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
+    <title>用户管理</title>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'west',title:'角色列表',collapsible:false,split:true" style="width:40%">
+        <table id="role_dg"></table>  
+    </div>
+    <div data-options="region:'center',title:'用户列表'">
+        <table id="user_dg"></table>
+        <div id="user_tbar" style="padding: 5px;">
+            <div style="margin-bottom: 5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append('user_dg')">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit('user_dg')">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept('user_dg')">确定</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject('user_dg')">取消</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/userManage.js"></script>
+</html>

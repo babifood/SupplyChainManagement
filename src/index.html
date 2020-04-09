@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <title>系统欢迎页</title>
+</head>
+
+<body class="easyui-layout">
+    <div data-options="region:'north',split:false,noheader:true" style="height: 60px; background-color: #ECF5FF;">
+        <div id="logo">
+            <span>供应链协同后台管理</span>
+        </div>
+        <div id="userinfo">您好：系统管理员</div>
+        <div id="outOrUpdate">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-out" plain="true" onclick=""
+                style="color: blue;">安全退出</a> 
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-lock"
+                plain="true" onclick="" style="color: blue;">修改密码</a>
+        </div>
+    </div>
+    <div data-options="region:'south',split:false,noheader:true"
+        style="height: 32px; line-height: 30px; text-align: center; background-color: #ECF5FF;">
+        版权所有 &copy 2018 中饮巴比食品股份有限公司</div>
+    <div data-options="region:'west',title:'导航菜单',split:true,iconCls:'icon-menu'" style="width: 200px;">
+        <div id="RightAccordion" class="easyui-accordion"></div>
+    </div>
+    <div data-options="region:'center',border:'false'" style="overflow: hidden;">
+        <div id="tabs" data-options="border:'false'">
+            <div title="起始页" style="display: block;" data-options="iconCls:'icon-house'"></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/index.js"></script>
+<style>
+    .panel-body{
+        overflow:hidden;
+    }
+</style>
+</html>

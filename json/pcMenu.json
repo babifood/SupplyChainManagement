@@ -1,0 +1,8 @@
+[
+    { "id": "1", "parentID": "0", "enCode": "菜单1", "text": "权限管理", "iconCls": ""},
+    { "id": "2", "parentID": "1", "enCode": "按钮1", "text": "权限管理", "iconCls": ""},
+    { "id": "3", "parentID": "1", "enCode": "按钮2", "text": "权限管理", "iconCls": ""},
+    { "id": "4", "parentID": "0", "enCode": "菜单2", "text": "权限管理", "iconCls": ""},
+    { "id": "5", "parentID": "4", "enCode": "按钮1", "text": "权限管理", "iconCls": ""},
+    { "id": "6", "parentID": "4", "enCode": "按钮2", "text": "权限管理", "iconCls": ""}
+]

@@ -1,0 +1,74 @@
+#logo{
+	float: left;
+	width: 75%;
+	line-height: 55px;
+	font-size: 30px;
+	font-style: italic;
+	font-weight: 800;
+	
+}
+#logo span{
+	padding-left: 80px;
+	color: blue;
+}
+#userinfo{
+	float: left;
+	width: 10%;
+	line-height: 55px;
+	color: blue;
+}
+#outOrUpdate{
+	float: left;
+	width: 15%;
+	line-height: 55px;
+	
+}
+/* #update_person_tab {
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+}
+#update_person_tab td, #update_person_tab th {
+	margin:0;
+	padding:0;
+	border: 1px solid #cad9ea;
+	color: #666;
+	height: 22px;
+	
+}
+.text_tr{
+	text-align: right;
+	font-weight: 900;
+}
+.text_tr input{
+	margin:0;
+	padding:0;
+	width: 99.5%;
+} */
+/* #update_person_tab tr:nth-child(odd) {
+	background: #F5FAFA;
+}
+
+#update_person_tab tr:nth-child(even) {
+	background: #fff;
+}
+#update_controct_tab {
+	margin:0;
+	padding:0;
+	border-collapse: collapse;
+}
+#update_controct_tab td, #update_controct_tab th {
+	margin:0;
+	padding:0;
+	border: 1px solid #cad9ea;
+	color: #666;
+	height: 22px;
+	
+}
+#update_controct_tab tr:nth-child(odd) {
+	background: #F5FAFA;
+}
+
+#update_controct_tab tr:nth-child(even) {
+	background: #fff;
+} */

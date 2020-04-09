@@ -1,0 +1,25 @@
+<!--税率设置-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
+    <title>税率设置</title>
+</head>
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+        <table id="tarRateSet_dg"></table>
+        <div id="tarRateSet_tbar" style="padding: 5px;">
+            <div style="margin-bottom: 5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append('tarRateSet_dg')">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit('tarRateSet_dg')">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept('tarRateSet_dg')">确定</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject('tarRateSet_dg')">取消</a>
+            </div>
+        </div>
+	</div>
+</body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/tarRateSet.js"></script>
+</html>

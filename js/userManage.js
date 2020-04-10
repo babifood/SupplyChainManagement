@@ -95,7 +95,7 @@ function loadUser(){
 			{
 				field:"userId",
 				title:"用户ID",
-				width:50,
+				
 				editor:{
 					type:'validatebox',
 					options:{
@@ -106,7 +106,7 @@ function loadUser(){
 			{
 				field:"userName",
 				title:"姓名",
-				width:50,
+				
 				editor:{
 					type:'validatebox',
 					options:{
@@ -117,7 +117,7 @@ function loadUser(){
 			{
 				field:"company",
 				title:"所属公司",
-				width:50,
+				
 				editor:{
 					type:'combogrid',
 					options:{
@@ -141,7 +141,7 @@ function loadUser(){
 			{
 				field:"dept",
 				title:"所属部门",
-				width:50,
+				
 				editor:{
 					type:'textbox',
 					options:{}
@@ -150,7 +150,7 @@ function loadUser(){
             {
 				field:"phone",
 				title:"电话",
-				width:50,
+				
 				editor:{
 					type:'textbox',
 					options:{
@@ -160,7 +160,7 @@ function loadUser(){
             {
 				field:"password",
 				title:"用户密码",
-				width:50,
+				
 				editor:{
 					type:'passwordbox',
 					options:{
@@ -171,7 +171,7 @@ function loadUser(){
             {
 				field:"userState",
 				title:"用户状态",
-				width:40,
+				
 				formatter:function(value,row){
                     return row.userStateName;
                 },
@@ -187,7 +187,25 @@ function loadUser(){
                     }
 				}				
                 
-			}
+			},
+			{
+				field:"1",
+				title:"账户类别",
+				
+				
+            },
+			{
+				field:"2",
+				title:"供应商名称",
+				
+				
+            },
+			{
+				field:"3",
+				title:"验证码",
+				
+				
+            }
 		]],
 		loadFilter:function(data){
 			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
@@ -221,8 +239,8 @@ function loadUser(){
 	        data.rows = (data.originalRows.slice(start, end));
 	        return data;
 		},
-		onClickRow:function(index){
-			onClickRow(index,'user_dg');
+		onDblClickRow:function(index){
+			onDblClickRow(index,'user_dg');
 		}
 	})
 }
@@ -236,7 +254,7 @@ function endEditing(dgId){
 		return false;
 	}
 }
-function onClickRow(index,dgId){
+function onDblClickRow(index,dgId){
 	if (editIndex != index){
 		if (endEditing(dgId)){
 			$('#'+dgId).datagrid('selectRow', index)

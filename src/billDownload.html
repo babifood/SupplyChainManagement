@@ -1,12 +1,44 @@
 <!--账单附件下载-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
     <title>账单附件下载</title>
 </head>
-<body>
-    <h1>账单附件下载页面</h1>
+
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:60%">
+        <table id="billDownload_dg"></table>
+        <div id="billDownload_tbar" style="padding: 5px;">
+            <div style="padding: 0 0 0 7px;color: #333;">
+                供应商：<input type="text" class="easyui-textbox" id="begDate" name="begDate" style="width: 160px;" />
+                对账月份：<input type="text" class="easyui-datebox" id="endDate" name="endDate" style="width: 160px;" />
+                对账单号：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;" />
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true"
+                    onclick="search()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true"
+                    onclick="reset()">重置</a>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center',border:false">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'center'" title="发票附件">
+                <table id="invoice_dg"></table>
+            </div>
+            <div data-options="region:'west',collapsible:false" title="账单附件" style="width:33%">
+                <table id="account_dg"></table>
+            </div>
+            <div data-options="region:'east',collapsible:false" title="其他附件" style="width:33%">
+                <table id="rests_dg"></table>
+            </div>
+        </div>
+    </div>
 </body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/billDownload.js"></script>
+
 </html>

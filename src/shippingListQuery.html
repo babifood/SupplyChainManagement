@@ -4,9 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
     <title>发货清单查询</title>
 </head>
 <body>
-    <h1>发货清单查询页面</h1>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+		<table id="shippingListQuery_dg"></table>
+        <div id="shippingListQuery_tbar" style="padding: 5px;">
+            <div style="padding: 0 0 0 7px;color: #333;">
+	        	供应商：<input type="text" class="easyui-textbox" id="begDate" name="begDate" style="width: 160px;"/>
+                订单号：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
+                物料：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
+	        </div>
+            <div style="padding: 0 0 0 7px;color: #333;margin-top: 3px;">
+                采购员：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
+	        	订单日期：<input type="text" class="easyui-datebox" id="begDate" name="begDate" style="width: 160px;"/>
+                到：<input type="text" class="easyui-datebox" id="endDate" name="endDate" style="width: 160px;"/>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+	        </div>
+		</div>
+    </div>
 </body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/shippingListQuery.js"></script>
 </html>

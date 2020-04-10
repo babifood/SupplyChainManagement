@@ -4,9 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
     <title>订单状态查询</title>
 </head>
 <body>
-    <h1>订单状态查询页面</h1>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+		<table id="orderStatusQuery_dg"></table>
+		<div id="orderStatusQuery_tbar" style="padding: 5px;">
+			<div style="padding: 0 0 0 7px;color: #333;">
+	        	订单日期：<input type="text" class="easyui-datebox" id="begDate" name="begDate" style="width: 160px;"/>
+                到：<input type="text" class="easyui-datebox" id="endDate" name="endDate" style="width: 160px;"/>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+	        </div>
+		</div>
+    </div>
+    <div id="orderStatusQueryDetail_window" class="easyui-window" closed="true" 
+        data-options="iconCls:'icon-save',modal:true,fit:true,collapsible:false,minimizable:false,maximizable:false">   
+		<div class="easyui-layout" data-options="fit:true">
+			<div data-options="region:'center',split:true">
+				<table id="orderStatusQueryDetail_dg"></table>
+			</div>
+			<div data-options="region:'south',border:false" style="text-align:center;padding:5px 0 0;">
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:$('#orderStatusQueryDetail_window').window('close')" style="width:80px">取消</a>
+			</div>
+		</div>	
+	</div>
 </body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/orderStatusQuery.js"></script>
 </html>

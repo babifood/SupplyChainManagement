@@ -4,9 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
     <title>检验单附件下载</title>
 </head>
-<body>
-    <h1>检验单附件下载页面</h1>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:60%">
+        <table id="inspectionSheetDownload_dg"></table>
+        <div id="inspectionSheetDownload_tbar" style="padding: 5px;">
+            <div style="padding: 0 0 0 7px;color: #333;">
+	        	&emsp;供应商：<input type="text" class="easyui-textbox" id="begDate" name="begDate" style="width: 160px;"/>
+                订单号：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
+                物料：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
+	        </div>
+            <div style="padding: 0 0 0 7px;color: #333;margin-top: 3px;">
+	        	到货日期：<input type="text" class="easyui-datebox" id="begDate" name="begDate" style="width: 160px;"/>
+                &emsp;&emsp;到：<input type="text" class="easyui-datebox" id="endDate" name="endDate" style="width: 160px;"/>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+	        </div>
+		</div>
+    </div>
+    <div data-options="region:'center'" title="账单附件">
+        <table id="account_dg"></table>    
+    </div>
 </body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/inspectionSheetDownload.js"></script>
 </html>

@@ -4,9 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
     <title>用户邀请码</title>
 </head>
 <body>
-    <h1>用户邀请码页面</h1>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+		<table id="userInvitationCode_dg"></table>
+		<div id="userInvitationCode_tbar" style="padding: 5px;">
+			<div style="padding: 0 0 0 7px;color: #333;">
+	        	供应商：<input type="text" class="easyui-textbox" id="supplier" name="supplier" style="width: 160px;"/>
+                姓名：<input type="text" class="easyui-textbox" id="name" name="name" style="width: 160px;"/>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+	        </div>
+		</div>
+	</div>
 </body>
+<script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/userInvitationCode.js"></script>
 </html>

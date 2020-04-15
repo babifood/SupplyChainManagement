@@ -68,8 +68,14 @@ function loadUserStatusMonitoringData(){
                 width:50,  
 			},
 			{  
-                title:'冻结日期',  
-                field:'freezeDate',  
+                title:'最后修改日期',  
+                field:'2',  
+                align:'center',
+                width:50, 
+			},
+			{  
+                title:'供应商名称',  
+                field:'1',  
                 align:'center',
                 width:50, 
 			}

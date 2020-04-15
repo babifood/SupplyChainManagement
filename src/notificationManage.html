@@ -1,70 +1,117 @@
 <!--通知管理-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonCssFile.js"></script>
     <title>通知管理</title>
 </head>
+
 <body>
     <div class="easyui-panel" data-options="fit:true,border:false">
-		<table id="notificationManage_dg"></table>
-		<div id="notificationManage_tbar" style="padding: 5px;">
+        <table id="notificationManage_dg"></table>
+        <div id="notificationManage_tbar" style="padding: 5px;">
             <div style="margin-bottom: 5px;">
-                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">新增</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
+                    onclick="append()">新增</a>
             </div>
         </div>
     </div>
-    <div id="notificationManage_window" class="easyui-window" closed="true" 
-        data-options="iconCls:'icon-save',modal:true,fit:true,collapsible:false,minimizable:false,maximizable:false">   
-		<div class="easyui-layout" data-options="fit:true">
+    <div id="notificationManage_window" class="easyui-window" closed="true"
+        data-options="iconCls:'icon-save',modal:true,fit:true,collapsible:false,minimizable:false,maximizable:false">
+        <div class="easyui-layout" data-options="fit:true">
             <div data-options="region:'west',collapsible:false,split:true" style="width:50%">
                 <form id="ff" method="post" style="padding-top: 30px;">
                     <table cellpadding="5">
                         <tr>
                             <td>通知单号:</td>
-                            <td><input class="easyui-textbox" type="text" name="name" data-options="required:true" style="width: 100%;"></input></td>
+                            <td><input class="easyui-textbox" type="text" id = "notificationCode" name="notificationCode" data-options="required:true"
+                                    style="width: 100%;"></input></td>
                             <td>通知类型:</td>
-                            <td><input class="easyui-textbox" type="text" name="email" data-options="required:true,validType:'email'" style="width: 100%;"></input></td>
+                            <td>
+                                <select class="easyui-combobox" id = "notificationType" name="notificationType" data-options="required:true,onSelect: function(rec){
+                                        notificationTypeOnSelect(rec)
+                                    }"style="width: 100%;">
+                                    <option value="TY">通用类</option>
+                                    <option value="XQ">需求类</option>
+                                    <option value="JC">奖惩类</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td>标题:</td>
-                            <td colspan="3"><input class="easyui-textbox" type="text" name="subject" data-options="required:true" style="width: 100%;"></input></td>
+                            <td colspan="3"><input class="easyui-textbox" type="text" name="subject"
+                                    data-options="required:true" style="width: 100%;"></input></td>
                         </tr>
                         <tr>
                             <td>上传附件:</td>
                             <td colspan="3">
-                                <input class="easyui-filebox" name="file2" data-options="prompt:'选择文件',buttonText:'选择文件'" style="width:100%">
+                                <input class="easyui-filebox" name="file2"
+                                    data-options="prompt:'选择文件',buttonText:'选择文件'" style="width:100%">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input class="easyui-checkbox" name="check" value="all" label="发给所有供应商:"
+                                    labelWidth="110px" data-options="onChange:function(checked){
+                                        checkboxOnChange(checked)
+                                    }" /></td>
+                            <td></td>
+                            <td>
+                                <a href="javascript:void(0)" id = "showSupplier_dialog_btn" class="easyui-linkbutton" iconCls="icon-search"
+                                    plain="true" onclick="showSupplier_dialog()">选择指定供应商</a>
                             </td>
                         </tr>
                         <tr>
                             <td>通知内容:</td>
                             <td colspan="3">
-                                <input class="easyui-textbox" name="message" data-options="multiline:true" style="height:240px;width: 100%;"></input>
+                                <input class="easyui-textbox" name="message" data-options="multiline:true"
+                                    style="height:240px;width: 100%;"></input>
                             </td>
                         </tr>
                     </table>
                 </form>
-			</div>
-			<div data-options="region:'center'">
+            </div>
+            <div data-options="region:'center'">
                 <table id="supplier_dg"></table>
                 <div id="supplier_tbar" style="padding: 5px;">
                     <div style="padding: 0 0 0 7px;color: #333;">
-                        供应商编码：<input type="text" class="easyui-textbox" id="supplierCode" name="begDate" style="width: 110px;"/>
-                        供应商名称：<input type="text" class="easyui-textbox" id="supplierName" name="endDate" style="width: 110px;"/>
-                        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
-                        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+                        供应商编码：<input type="text" class="easyui-textbox" id="supplierCode" name="begDate"
+                            style="width: 110px;" />
+                        供应商名称：<input type="text" class="easyui-textbox" id="supplierName" name="endDate"
+                            style="width: 110px;" />
+                        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true"
+                            onclick="search()">查询</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true"
+                            onclick="reset()">重置</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+                            onclick="emptySupplier_dg()">清空已选项</a>
                     </div>
                 </div>
-			</div>
+            </div>
             <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0 0;">
-                <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0)" onclick="" style="width:80px">保存</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:$('#notificationManage_window').window('close')" style="width:80px">取消</a>
-			</div>
-		</div>	
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0)" onclick=""
+                    style="width:80px">保存</a>
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)"
+                    onclick="javascript:$('#notificationManage_window').window('close')" style="width:80px">取消</a>
+            </div>
+        </div>
+    </div>
+    <div id ="supplier_dialog" class="easyui-dialog" data-options="buttons:'#supplier_dialog_buttons',modal:true,closed:true" style="width: 700px;height: 500px">
+		<table id="supplier_dialog_grid"></table>
+		<div id = "supplier_dialog_tbar" style="padding:7px;color: #333;">
+			供应商：<input class="easyui-textbox" id="supplier_dialog_supplierName" name="supplier_dialog_supplierName" style="width: 110px;"/>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="supplier_dialog_search()">查询</a>	
+		</div>
+		<div id="supplier_dialog_buttons" style="text-align: center;">
+	        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="supplier_dialog_confirm()" style="width: 90px;">确定</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#supplier_dialog').dialog('close')" style="width: 90px;">取消</a>
+	    </div>
 	</div>
 </body>
 <script type="text/javascript" charset="utf-8" src="../js/commonFile/commonJsFile.js"></script>
 <script type="text/javascript" charset="utf-8" src="../js/notificationManage.js"></script>
+
 </html>

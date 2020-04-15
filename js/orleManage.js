@@ -44,32 +44,6 @@ function loadRole(){
 
 					}
 				}
-			},
-			{
-				field:"pcState",
-				title:"后台权限",
-				width:50,
-				align:'center',
-				editor:{
-					type:'checkbox',
-					options:{
-						on:'是',
-						off:'否'
-					}
-				}
-			},
-			{
-				field:"phoneState",
-				title:"手机权限",
-				width:50,
-				align:'center',
-				editor:{
-					type:'checkbox',
-					options:{
-						on:'是',
-						off:'否'
-					}
-				}
 			}
 		]],
 		loadFilter:function(data){

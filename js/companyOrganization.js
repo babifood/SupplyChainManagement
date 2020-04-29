@@ -76,7 +76,11 @@ function loadCompanyOrganization(){
 					'token':'1'
 				},
 				success: function(obj) {
-                    success(obj.data.list);
+                    var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
 				},
 				error : function(e){
 					error(e)

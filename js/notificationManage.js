@@ -1,3 +1,4 @@
+var ipAndPost = 'http://10.4.1.27:8582';
 //当前时间戳
 var timestamp;
 //初始化
@@ -20,94 +21,110 @@ function loadNotificationManageData(){
 		singleSelect:true,
 		rownumbers:true,
         columns:[[
+			{
+				field:"notifyId",
+				hidden:"true",
+			},
 			{  
 	          title:'通知单号',  
-	          field:'orderCode',  
+	          field:'messageCode',  
               align:'center',
-              width:50,
 			},
 			{  
 	          title:'通知时间',  
-	          field:'supplier',  
+	          field:'messageTime',  
               align:'center',
-              width:50,
 			},
 			{  
 	          title:'通知标题',  
-	          field:'supplierCode',  
+	          field:'messageName',  
               align:'center',
-              width:50,
 			},
 			{  
                 title:'供应商数',  
-                field:'placeAnOrderDate',  
-                align:'center',
-                width:50,  
+                field:'supplierNum',  
+                align:'center',  
 			},
 			{  
-                title:'操作',  
-                field:'buyer',  
+                title:'状态',  
+                field:'publish',  
                 align:'center',
-                width:50,  
+				formatter:function(value,row,index){
+					if (value === 1){
+						return '未发布';
+					} else if(value === 2){
+						return '已发布';
+					}
+				}  
 			},
+			// {  
+            //     title:'操作',  
+            //     field:'buyer',  
+            //     align:'center',  
+			// },
 			{  
                 title:'创建人',  
-                field:'orderState',  
-                align:'center',
-                width:50,  
+                field:'createUser',  
+                align:'center',  
             },
 			{  
                 title:'最后修改',  
-                field:'affirmDate',  
-                align:'center',
-                width:50,  
+                field:'updateTime',  
+                align:'center',  
 			},
 			{  
                 title:'修改人',  
-                field:'affirmPerson',  
-                align:'center',
-                width:50,  
+                field:'updateUser',  
+                align:'center',  
 			}
 			
         ]],
-        loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-        }
+        loader:function(param, success, error){
+			var params = {}; //声明一个对象
+            params.page  = param.page;
+			params.limit  = param.rows;
+			params.messageCode = '';	//消息code 	 	 		
+			params.supplierName = '';	//供应商名称 	 	 		
+			params.title = '';	//消息标题 			
+			params.startDate = '';	//开始日期yyyy-MM-dd 	
+			params.endDate = '';//结束日期yyyy-MM-dd
+			$.ajax({
+				url: ipAndPost+'/web/message/findMessageInfoList',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+                    var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
+		onDblClickRow:function(rowIndex, rowData){
+			//查看消息详情
+			console.log(rowData);
+			
+		},
 	});
 }
 function append(){
 	timestamp = Date.parse(new Date())
-	$('#ff').form('clear');
+	$('#notificationManage_form').form('clear');
 	$("#notificationManage_window").window("open").window("setTitle","新增通知");
+	$('#supplier_dg').datagrid({
+		queryParams: {
+			messageId: '-1'
+		}
+	 });
     loadSupplierData();
 }
 //通知类型下来选择生成编号
@@ -126,9 +143,7 @@ function checkboxOnChange(checked){
 //加载供应商信息
 function loadSupplierData(){
     $("#supplier_dg").datagrid({
-		// url:"",
-        // loadMsg:"数据加载中......",
-        data:[{supplier:'供应商1',supplierCode:'供应商编号'},{supplier:'供应商2',supplierCode:'供应商编号2'}],
+        loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
 		striped:true,
@@ -141,6 +156,10 @@ function loadSupplierData(){
 		singleSelect:false,
 		rownumbers:true,
         columns:[[
+			{
+				field:"supplierId",
+				hidden:"true",
+			},
             {  
                 field:'ck',  
                 align:'center',
@@ -148,49 +167,51 @@ function loadSupplierData(){
             },
 			{  
 	          title:'供应商编码',  
-	          field:'supplierCode',  
+	          field:'lifnr',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'供应商名',  
-	          field:'supplier',  
+	          field:'providerName',  
               align:'center',
               width:50,
 			}
         ]],
-        loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-        }
+        loader:function(param, success, error){
+			var params = {}; //声明一个对象
+            params.page  = param.page;
+			params.limit  = param.rows;
+			params.messageId = param.messageId;	//消息code 	
+			if(param.messageId==='-1'){
+				var data = {
+					rows:[],
+					total:0
+				}
+				success(data);
+			}else{
+				$.ajax({
+					url: ipAndPost+'/web/provider/findProvidersOfMessage',
+					type:"get",
+					//请求的媒体类型
+					contentType: "application/json;charset=UTF-8",
+					data : params,
+					headers: {
+						'token':'1'
+					},
+					success: function(obj) {
+						var data = {
+							rows:obj.data.list,
+							total:obj.data.total
+						}
+						success(data);
+					},
+					error : function(e){
+						error(e)
+					}
+				})
+			} 	 		
+		}
 	});
 }
 //清空已选供应商列表信息
@@ -212,9 +233,7 @@ function showSupplier_dialog(){
 //加载供应商列表信息
 function loadSupplierDialogGridData(){
 	$("#supplier_dialog_grid").datagrid({
-		// url:"",
-        // loadMsg:"数据加载中......",
-        data:[{supplier:'供应商3',supplierCode:'供应商编号3'},{supplier:'供应商4',supplierCode:'供应商编号4'}],
+        loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
 		striped:true,
@@ -227,6 +246,10 @@ function loadSupplierDialogGridData(){
 		singleSelect:false,
 		rownumbers:true,
         columns:[[
+			{
+				field:"supplierId",
+				hidden:"true",
+			},
             {  
                 field:'ck',  
                 align:'center',
@@ -234,54 +257,55 @@ function loadSupplierDialogGridData(){
             },
 			{  
 	          title:'供应商编码',  
-	          field:'supplierCode',  
+	          field:'lifnr',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'供应商名',  
-	          field:'supplier',  
+	          field:'providerName',  
               align:'center',
               width:50,
 			}
         ]],
-        loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-        }
+        loader:function(param, success, error){
+			var params = {}; //声明一个对象
+            params.page  = param.page;
+			params.limit  = param.rows;
+			params.invitationCode =	'';//邀请码 	否 	否 		
+			params.providerCode = '';//供应商编码 	否 	否 		
+			params.providerName = param.providerName;//供应商名称 	 	 		
+			$.ajax({
+				url: ipAndPost+'/web/provider/findProviderInfoList',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+					var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		}
 	});
 }
 //供应商名称查询
 function supplier_dialog_search(){
-	var supplierName = $("#supplier_dialog_supplierName").datebox('getValue');
+	var supplierName = $("#supplier_dialog_supplierName").textbox('getValue');
+	$('#supplier_dialog_grid').datagrid({
+		queryParams: {
+			providerName: supplierName
+		}
+	 });
 }
 //确定选中供应商
 function supplier_dialog_confirm(){
@@ -291,8 +315,9 @@ function supplier_dialog_confirm(){
 		for(var i=0; i<rows.length; i++){
 			$("#supplier_dg").datagrid('appendRow',
 				{
-					supplierCode:rows[i].supplierCode,
-					supplier:rows[i].supplier,
+					supplierId : rows[i].supplierId,
+					lifnr:rows[i].lifnr,
+					providerName:rows[i].providerName,
 				});
 		}
 	}
@@ -300,7 +325,7 @@ function supplier_dialog_confirm(){
 		var flag = true;//不相等
 		for (var i = 0; i <= rows.length - 1; i++){
 			for (var j = 0; j <= targetRows.length - 1; j++){
-				if (rows[i].supplierCode == targetRows[j].supplierCode) {
+				if (rows[i].lifnr == targetRows[j].lifnr) {
 					flag = false;//相等
 					break;
 				}
@@ -311,11 +336,68 @@ function supplier_dialog_confirm(){
 			if (flag == true) {
 				$("#supplier_dg").datagrid('appendRow',
 				{
-					supplierCode:rows[i].supplierCode,
-					supplier:rows[i].supplier,
+					supplierId : rows[i].supplierId,
+					lifnr:rows[i].lifnr,
+					providerName:rows[i].providerName,
 				});
 			}
 		}
 	}
 	$("#supplier_dialog").dialog("close");
+}
+//保存公告消息
+function saveMassage(){
+	var formdata = $('#notificationManage_form').serializeArray();
+	var json={};
+	for(var i=0;i<formdata.length;i++){
+		json[formdata[i]['name']]=formdata[i]['value'];
+	}
+	var files = $('#notificationFiles').filebox("files");
+	var supplierRows = $('#supplier_dg').datagrid('getRows');
+	var data = {
+		allProvider : json.check==undefined||formdata.check==null||formdata.check==''?false:true,	// 	所有供应商 	否 	否 		false
+		content : json.notificationContext,	// 	消息内容 	是 	否 		
+		files : files,	 	//消息文件列表 	否 	否 	files:[{fileId：消息id}] 	
+		messageCode : json.notificationCode,	// 	消息code 	是 	否 		
+		messageName : json.notificationType,	// 	消息名称 	是 	否 		
+		providers : supplierRows,	// 	供应商列表 	否 	否 	"providers": [ { "supplierCode": "1", "supplierId": "1" } ] 	
+		title : json.notificationTitle	// 	消息标题 	是
+	}
+	$.ajax({
+		url: ipAndPost+'/web/message/saveMessageInfo',
+		type:"post",
+		//请求的媒体类型
+		contentType: "application/json;charset=UTF-8",
+		data : JSON.stringify(data),
+		headers: {
+			'token':'1'
+		},
+		beforeSend:function(){
+			$.messager.progress({
+				text:'保存中......',
+			});
+		},
+		success: function(obj) {
+			$.messager.progress('close');
+			if(obj.code == "200"){
+				$.messager.show({
+					title:'消息提醒',
+					msg:'消息保存成功!',
+					timeout:3000,
+					showType:'slide'
+				});
+			}else{
+				$.messager.show({
+					title:'消息提醒',
+					msg:obj.message,
+					timeout:3000,
+					showType:'slide'
+				});
+			}
+		},
+		error : function(e){
+			console.log(e);
+		}
+	})
+	
 }

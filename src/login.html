@@ -5,8 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../easy-ui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../easy-ui/themes/icon.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/login.css"/>
     <title>系统登录</title>
-    <link href="../css/MemberLogin.css" rel='stylesheet' type='text/css' />
+    <!-- <link href="../css/MemberLogin.css" rel='stylesheet' type='text/css' /> -->
 </head>
 
 <body style="overflow: hidden">
@@ -17,49 +20,33 @@
                 <img src="../imgs/adminLogin.png" alt="" />
             </div>
             <form id="loginForm">
-                <input type="text" id="username" placehoder="用户名" />
-                <input type="password" id="password" placehoder="登录密码" />
-                <div class="submit">
-                    <input type="button" value="登录" id="btn_login" class="butSyley">
-                    <input type="checkbox" id="rememberMe" /><label class="lableStyle">记住密码</label>
-                    <!-- <a href="#" class="aSyle">忘记密码?</a> -->
+                <div style="margin-bottom: 10px;">
+                    <input id="userName" name="userName" class="easyui-textbox" prompt="请输入用户名"
+                                style="width: 100%;height: 38px;" data-options="required:true,missingMessage:'用户名不能为空!'"/>
                 </div>
-
+                <div style="margin-bottom: 10px;">
+                    <input id="password" name="password" class="easyui-passwordbox" prompt="请输入密码"
+                                style="width: 100%;height: 38px;" data-options="required:true,missingMessage:'密码不能为空!',
+                                validType:'length[6,18]',invalidMessage :'密码不能少于6位且不能大于18位!'"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <select class="easyui-combobox" id="accountType" name="accountType" style="width: 100%;height: 38px;" editable = false; data-options="panelHeight:80">
+                        <option value="0">内部用户</option>
+                        <option value="1">外部供应商</option>
+                    </select>
+                </div>
+                <div>
+                    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="loginSubmit()" style="width: 100%;height: 38px;">登录</a>
+                </div>
             </form>
         </div>
     </div>
     <div class="loginBtn">
         <p>版权所有2020中饮巴比食品股份有限公司</p>
     </div>
-    <script src="../easy-ui/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            $('#btn_login').click(function () {
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        sys: $("#sys").val(),
-                        username: $("#username").val(),
-                        password: $("#password").val(),
-                        rememberMe: $('#rememberMe').is(":checked") ? 1 : 0
-                    },
-                    url: "/sys/login.html",
-                    success: function (result) {
-                        if (result.code == 200) {
-                            window.location.href = '/page/index.html?sys=' + result.sys;
-                        } else {
-                            alert(result.msg);
-                        }
-                    },
-                    error: function () {}
-                });
-            });
-
-
-        });
-    </script>
 </body>
-
+<script type="text/javascript" charset="utf-8" src="../easy-ui/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../easy-ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../easy-ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/login.js"></script>
 </html>

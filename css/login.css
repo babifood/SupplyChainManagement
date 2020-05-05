@@ -1,0 +1,62 @@
+.loginBtn{position: fixed;left:0;bottom:0;line-height: 38px;width: 100%;background-color: #bbe1f857;font-size: 13px}
+.loginBtn p{text-align: center;color: #4a5453;font-size: 14px;}
+img{max-width:100%;}
+/*end reset*/
+/****-----start-body----****/
+body{
+
+ 	font-family: 'Open Sans', sans-serif;
+    background-image: url("../imgs/login03.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+.login-form {
+	background:#bbe1f88c;
+	width: 26%;
+	margin: 0 auto;
+ 	position: relative;
+ 	-webkit-border-radius: 0.4em;
+	-o-border-radius: 0.4em;
+	-moz-border-radius: 0.4em;
+    box-shadow: inset 0px 0px 10px #d1e6ef;
+}
+
+.head {
+	position: absolute;
+	top:-15%;
+	left: 35%;
+}
+.head img {
+	border-radius:50%;
+	-webkit-border-radius:50%;
+	-o-border-radius:50%;
+	-moz-border-radius:50%;
+	border:6px solid rgba(221, 218, 215, 0.23);
+    width: 100px;
+    height: 100px;
+}
+.main{
+	position:relative;
+	top:160px;
+
+}
+.main h1{
+	font-size:25px;
+	color: #ffffff;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:800;
+	padding-top: 19%;
+	text-align: center;
+}
+.main form {
+	width: 80%;
+	margin: 0 auto;
+	padding: 6% 0 9% 0;
+}
+.main p {
+text-align: center;
+}
+.main form p a {
+	color: #888;
+	font-family: 'Open Sans', sans-serif;
+}

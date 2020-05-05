@@ -15,11 +15,11 @@
         <table id="billDownload_dg"></table>
         <div id="billDownload_tbar" style="padding: 5px;">
             <div style="padding: 0 0 0 7px;color: #333;">
-                供应商：<input type="text" class="easyui-textbox" id="begDate" name="begDate" style="width: 160px;" />
-                对账月份：<input type="text" class="easyui-datebox" id="endDate" name="endDate" style="width: 160px;" />
-                对账单号：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;" />
+                供应商：<input type="text" class="easyui-textbox" id="supplier" name="supplier" style="width: 160px;" />
+                对账月份：<input type="text" class="easyui-datebox" id="month" name="month" style="width: 160px;" />
+                对账单号：<input type="text" class="easyui-textbox" id="accountCode" name="accountCode" style="width: 160px;" />
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true"
-                    onclick="search()">查询</a>
+                    onclick="searchFunction()">查询</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true"
                     onclick="reset()">重置</a>
             </div>

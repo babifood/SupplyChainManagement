@@ -116,17 +116,6 @@ function loadNotificationManageData(){
 		},
 	});
 }
-function append(){
-	timestamp = Date.parse(new Date())
-	$('#notificationManage_form').form('clear');
-	$("#notificationManage_window").window("open").window("setTitle","新增通知");
-	$('#supplier_dg').datagrid({
-		queryParams: {
-			messageId: '-1'
-		}
-	 });
-    loadSupplierData();
-}
 //通知类型下来选择生成编号
 function notificationTypeOnSelect(rec){
 	timestamp==undefined?timestamp = Date.parse(new Date()):timestamp;
@@ -345,6 +334,18 @@ function supplier_dialog_confirm(){
 	}
 	$("#supplier_dialog").dialog("close");
 }
+//新增公告消息
+function append(){
+	timestamp = Date.parse(new Date())
+	$('#notificationManage_form').form('clear');
+	$("#notificationManage_window").window("open").window("setTitle","新增通知");
+	$('#supplier_dg').datagrid({
+		queryParams: {
+			messageId: '-1'
+		}
+	 });
+    loadSupplierData();
+}
 //保存公告消息
 function saveMassage(){
 	var formdata = $('#notificationManage_form').serializeArray();
@@ -370,7 +371,8 @@ function saveMassage(){
 		contentType: "application/json;charset=UTF-8",
 		data : JSON.stringify(data),
 		headers: {
-			'token':'1'
+			'token':'1',
+			'userName':'1'
 		},
 		beforeSend:function(){
 			$.messager.progress({
@@ -400,4 +402,124 @@ function saveMassage(){
 		}
 	})
 	
+}
+//删除公告消息
+function removeit(){
+	var dg = $('#notificationManage_dg');
+	var rowData = dg.datagrid('getSelected');
+	var index = dg.datagrid("getRowIndex",rowData);
+	if(index>=0){
+		var data = {
+			messageId:rowData.notifyId
+		}
+		$.messager.confirm("提示","确定要删除此数据？",function(r){
+			if(r){
+				$.ajax({
+					url: ipAndPost+'/web/message/removeMessageInfo',
+					type:"post",
+					//请求的媒体类型
+					contentType: "application/json;charset=UTF-8",
+					data : JSON.stringify(data),
+					headers: {
+						'token':'1'
+					},
+					beforeSend:function(){
+						$.messager.progress({
+							text:'删除中......',
+						});
+					},
+					success: function(obj) {
+						$.messager.progress('close');
+						if(obj.code == "200"){
+							$.messager.show({
+								title:'消息提醒',
+								msg:'删除成功!',
+								timeout:3000,
+								showType:'slide'
+							});	
+							dg.datagrid('reload');
+						}else{
+							$.messager.show({
+								title:'消息提醒',
+								msg:obj.message,
+								timeout:3000,
+								showType:'slide'
+							});	
+						}
+					}
+				})
+			}
+		})
+	}else{
+		$.messager.alert('提示消息','请选择要删除的数据！','info');
+	}
+}
+//发送公告消息
+function send(){
+	var dg = $('#notificationManage_dg');
+	var rowData = dg.datagrid('getSelected');
+	var index = dg.datagrid("getRowIndex",rowData);
+	if(index>=0){
+		var data = {
+			messageId:rowData.notifyId
+		}
+		$.messager.confirm("提示","确定要发布此数据？",function(r){
+			if(r){
+				$.ajax({
+					url: ipAndPost+'/web/message/publishMessage',
+					type:"post",
+					//请求的媒体类型
+					contentType: "application/json;charset=UTF-8",
+					data : JSON.stringify(data),
+					headers: {
+						'token':'1',
+						'userName':'1'
+					},
+					beforeSend:function(){
+						$.messager.progress({
+							text:'发布中......',
+						});
+					},
+					success: function(obj) {
+						$.messager.progress('close');
+						if(obj.code == "200"){
+							$.messager.show({
+								title:'消息提醒',
+								msg:'发布成功!',
+								timeout:3000,
+								showType:'slide'
+							});	
+							dg.datagrid('reload');
+						}else{
+							$.messager.show({
+								title:'消息提醒',
+								msg:obj.message,
+								timeout:3000,
+								showType:'slide'
+							});	
+						}
+					}
+				})
+			}
+		})
+	}else{
+		$.messager.alert('提示消息','请选择要发布的数据！','info');
+	}
+}
+function update(){
+	var dg = $('#notificationManage_dg');
+	var rowData = dg.datagrid('getSelected');
+	var index = dg.datagrid("getRowIndex",rowData);
+	if(index>=0){
+		$('#notificationManage_form').form('clear');
+		$("#notificationManage_window").window("open").window("setTitle","修改通知");
+		$('#supplier_dg').datagrid({
+			queryParams: {
+				messageId: rowData.notifyId
+			}
+		});
+		loadSupplierData();
+	}else{
+		$.messager.alert('提示消息','请选择要修改的数据！','info');
+	}
 }

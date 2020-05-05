@@ -13,14 +13,14 @@
         <table id="inspectionSheetDownload_dg"></table>
         <div id="inspectionSheetDownload_tbar" style="padding: 5px;">
             <div style="padding: 0 0 0 7px;color: #333;">
-	        	&emsp;供应商：<input type="text" class="easyui-textbox" id="begDate" name="begDate" style="width: 160px;"/>
-                订单号：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
-                物料：<input type="text" class="easyui-textbox" id="endDate" name="endDate" style="width: 160px;"/>
+	        	&emsp;供应商：<input type="text" class="easyui-textbox" id="supplierName" name="supplierName" style="width: 160px;"/>
+                订单号：<input type="text" class="easyui-textbox" id="orderId" name="orderId" style="width: 160px;"/>
+                物料：<input type="text" class="easyui-textbox" id="matterName" name="matterName" style="width: 160px;"/>
 	        </div>
             <div style="padding: 0 0 0 7px;color: #333;margin-top: 3px;">
 	        	到货日期：<input type="text" class="easyui-datebox" id="begDate" name="begDate" style="width: 160px;"/>
                 &emsp;&emsp;到：<input type="text" class="easyui-datebox" id="endDate" name="endDate" style="width: 160px;"/>
-                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchFunction()">查询</a>
 	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
 	        </div>
 		</div>

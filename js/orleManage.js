@@ -1,3 +1,4 @@
+var ipAndPost = 'http://10.4.1.27:8382';
 var editIndex = undefined;
 //初始化
 $(function(){
@@ -9,8 +10,7 @@ $(function(){
 function loadRole(){
 	//角色列表
 	$("#role_dg").datagrid({
-		// url:"../json/role.json",
-		// loadMsg:"数据加载中......",
+		loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
 		striped:true,
@@ -24,7 +24,7 @@ function loadRole(){
 		rownumbers:true,
 		columns:[[
 			{
-				field:"role_name",
+				field:"name",
 				title:"角色名称",
 				width:100,
 				editor:{
@@ -35,7 +35,7 @@ function loadRole(){
 				}
 			},
 			{
-				field:"role_desc",
+				field:"description",
 				title:"角色描述",
 				width:200,
 				editor:{
@@ -46,40 +46,52 @@ function loadRole(){
 				}
 			}
 		]],
-		loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-		},
-		onClickRow:function(index){
+		onDblClickRow:function(index){
 			onClickRow(index,'role_dg');
+		},
+		onClickRow:function(rowIndex, rowData){
+			$('#company_dg').datagrid({
+				queryParams: {
+					roleId:rowData.roleId
+				}
+			});
+			$('#pcMenu_ul').tree({
+				queryParams: {
+					roleId:rowData.roleId
+				}
+			});
+			$('#phoneMenu_ul').tree({
+				queryParams: {
+					roleId:rowData.roleId
+				}
+			});
+		},
+		loader:function(param, success, error){
+			var params = {}; //声明一个
+			params.page  = param.page;
+			params.limit  = param.rows;
+			// params.roleName ='';	// 	角色名称 	是 	否 		
+			// params.roleId =''	// 	角色id 	是 	否 		
+			$.ajax({
+				url: ipAndPost+'/auth/role/findRoleInfoList',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+                    var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
 		}
 	})	
 }
@@ -114,13 +126,127 @@ function append(dgId){
 }
 function removeit(dgId){
 	if (editIndex == undefined){return}
-	$('#'+dgId).datagrid('cancelEdit', editIndex)
-			.datagrid('deleteRow', editIndex);
-	editIndex = undefined;
+	var rowData =$('#'+dgId).datagrid('getSelected');
+	var index = $('#'+dgId).datagrid("getRowIndex",rowData);
+	var node = $('#'+dgId).datagrid("getChecked");
+	var data = {
+		roleId:rowData.roleId
+	}
+	$.messager.confirm("提示","确定要删除此数据？",function(r){
+		if(r){
+			$.ajax({
+				url: ipAndPost+'/auth/role/removeRoleInfo',
+				type:"post",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : JSON.stringify(data),
+				headers: {
+					'token':'1'
+				},
+				beforeSend:function(){
+					$.messager.progress({
+						text:'删除中......',
+					});
+				},
+				success: function(obj) {
+					$.messager.progress('close');
+					if(obj.code == "200"){
+						$.messager.show({
+							title:'消息提醒',
+							msg:'删除成功!',
+							timeout:3000,
+							showType:'slide'
+						});
+						$('#'+dgId).datagrid('cancelEdit', index).datagrid('deleteRow', index).datagrid('clearSelections',node);
+						$('#'+dgId).datagrid('acceptChanges');
+						editIndex = undefined;	
+					}
+				},
+				error : function(e){
+					console.log(e);
+				}
+			})
+		}
+		editIndex = undefined;
+	})
 }
 function accept(dgId){
 	if (endEditing(dgId)){
-		$('#'+dgId).datagrid('acceptChanges');
+		var companyArr = [];
+		var logicArr = [];
+		var url,msg;
+		var rowData =$('#'+dgId).datagrid('getSelected');
+		//获取选中公司ids
+		var companyRowData =$('#company_dg').datagrid('getSelections');
+		for(var i=0; i<companyRowData.length; i++){
+			companyArr.push(companyRowData[i].companyId)
+		}
+		//获取PC端菜单数据
+		if($('#pcMenu_ul').data != undefined){
+			var pcNodes = $('#pcMenu_ul').tree('getChecked');
+			for(var i=0; i<pcNodes.length; i++){
+				logicArr.push(pcNodes[i].id)
+			}
+		}
+		//获取手机端菜单数据
+		if($('phoneMenu_ul').data != undefined){
+			var phoneNodes = $('#phoneMenu_ul').tree('getChecked');
+			for(var i=0; i<phoneNodes.length; i++){
+				logicArr.push(phoneNodes[i].id)
+			}
+		}
+		var data = {
+			name: rowData.name,
+			description: rowData.description,
+			companyIds: companyArr,
+			logicIds:logicArr
+		}
+		if(rowData.roleId==undefined||rowData.roleId==''||rowData.roleId==null){
+			url = ipAndPost+'/auth/role/saveRoleInfo';
+			msg = '保存成功!';
+		}else{
+			url = ipAndPost+'/auth/role/updateRoleInfo';
+			msg = '修改成功!';
+			data.roleId=rowData.roleId;
+		}
+		$.ajax({
+			url: url,
+			type:"post",
+			//请求的媒体类型
+			contentType: "application/json;charset=UTF-8",
+			data : JSON.stringify(data),
+			headers: {
+				'token':'1',
+				'userName' :'1'
+			},
+			beforeSend:function(){
+				$.messager.progress({
+					text:'保存中......',
+				});
+			},
+			success: function(obj) {
+				$.messager.progress('close');
+				if(obj.code == "200"){
+					$.messager.show({
+						title:'消息提醒',
+						msg:msg,
+						timeout:3000,
+						showType:'slide'
+					});
+					$('#'+dgId).datagrid('acceptChanges');
+				}else{
+					$.messager.show({
+						title:'消息提醒',
+						msg:obj.message,
+						timeout:3000,
+						showType:'slide'
+					});
+				}
+			},
+			error : function(e){
+				console.log(e);
+			}
+		})
 	}
 }
 function reject(dgId){
@@ -148,21 +274,34 @@ function loadTabs(){
 function loadPcMenuTree(){
 	//菜单树
 	$('#pcMenu_ul').tree({
-		// url:"../json/pcMenu.json",
-		data:[
-			{ id: "1", parentID: "0", enCode: "", text: "菜单1", iconCls:"", children:[
-				{ id: "2", parentID: "1", enCode: "", text: "按钮1", iconCls: ""},
-				{ id: "3", parentID: "1", enCode: "", text: "按钮2", iconCls: ""}
-			]},
-			{ id: "4", parentID: "0", enCode: "", text: "菜单1", iconCls:"", children:[
-				{ id: "5", parentID: "1", enCode: "", text: "按钮1", iconCls: ""},
-				{ id: "6", parentID: "1", enCode: "", text: "按钮2", iconCls: ""}
-			]}
-		],
 		lines:true,
 		checkbox:true,
 		toggle:true,
 		cascadeCheck:false,
+		loader:function(param, success, error){
+			var params = {}; //声明一个	
+			params.roleId = param.roleId==null?'':param.roleId;
+			$.ajax({
+				url: ipAndPost+'/auth/menu/findMenusOfRole',
+				// url:'../json/pcMenu.json',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+					var data = convertNode(obj.data.pcMenuList);
+					console.log(data);
+					
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
 		onLoadSuccess:function(node,data){
 		  if (data) {
 			  $('#pcMenu_ul').tree('expandAll');
@@ -170,19 +309,38 @@ function loadPcMenuTree(){
 		}
 	});
 }
-//加载PC端菜单功能按钮
+//加载手机端菜单功能按钮
 function loadPhoneMenuTree(){
 	//菜单树
 	$('#phoneMenu_ul').tree({
-		// url:"../json/pcMenu.json",
-		data:[
-			{ id: "1", parentID: "0", enCode: "", text: "菜单1", iconCls:"", children:[]},
-			{ id: "4", parentID: "0", enCode: "", text: "菜单1", iconCls:"", children:[]}
-		],
 		lines:true,
 		checkbox:true,
 		toggle:true,
 		cascadeCheck:false,
+		loader:function(param, success, error){
+			var params = {}; //声明一个	
+			params.roleId = '';
+			$.ajax({
+				url: ipAndPost+'/auth/menu/findMenusOfRole',
+				// url:'../json/pcMenu.json',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+					var data = convertNode(obj.data.mobileMenuList);
+					console.log(data);
+					
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
 		onLoadSuccess:function(node,data){
 		  if (data) {
 			  $('#phoneMenu_ul').tree('expandAll');
@@ -190,68 +348,86 @@ function loadPhoneMenuTree(){
 		}
 	});
 }
-
+//公司
 function loadCompany(){
 	//角色列表
 	$("#company_dg").datagrid({
 		// url:"../json/role.json",
-		// loadMsg:"数据加载中......",
+		loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
 		striped:true,
 		border:false,
-		pagination:true,
-		pageSize : 10,
-		pageList : [10, 20, 30 ],
-		pageNumber:1,
-		singleSelect:true,
+		// pagination:true,
+		// pageSize : 10,
+		// pageList : [10, 20, 30 ],
+		// pageNumber:1,
+		// singleSelect:true,
 		checkOnSelect:true,
 		rownumbers:true,
 		columns:[[
 			{
+				field:"companyId",
+				hidden:"true",
+			},
+			{
+				field:"status",
+				checkbox:true
+			},
+			{
 				field:"companyCode",
 				title:"公司代码",
+				width:100
 			},
 			{
 				field:"companyName",
 				title:"公司名称",
+				width:100
 			},
-			{
-				field:"ck",
-				checkbox:true
-			}
+			
 		]],
-		loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-		}
+		loader:function(param, success, error){
+			var params = {}; //声明一个	
+			params.roleId = '';
+			$.ajax({
+				url: ipAndPost+'/auth/menu/findMenusOfRole',
+				// url:'../json/pcMenu.json',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+                    success(obj.data.companyList);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
 	})	
+}
+//书节点装换
+function convertNode(obj){
+	var node = new Array()
+	for(var i=0;i<obj.length;i++){
+		var item = {
+			id:obj[i].menuId,
+			text:obj[i].menuName,
+			state:'open',
+			checked:obj[i].status,
+			iconCls:obj[i].icon,
+			attributes:{
+				url:obj[i].url,
+				channel:obj[i].channel
+			},
+			children:obj[i].menuInfoVoList == null
+			||obj[i].menuInfoVoList == undefined
+			||obj[i].menuInfoVoList.length<=0?[]:convertNode(obj[i].menuInfoVoList)
+		}
+		node.push(item);
+	}
+	return node;
 }

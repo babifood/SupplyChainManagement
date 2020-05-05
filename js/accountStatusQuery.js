@@ -1,13 +1,11 @@
+var ipAndPost = 'http://10.4.1.27:8582';
 //初始化
 $(function(){
 	loadAccountStatusQueryData();
 });
 function loadAccountStatusQueryData(){
 	$("#accountStatusQuery_dg").datagrid({
-		// url:"",
-        // loadMsg:"数据加载中......",
-        data:[{orderCode:'0001',supplier:'供应商1',supplierCode:'供应商编号',placeAnOrderDate:'2020-04-09',
-        buyer:'李四',orderState:'订单状态',affirmDate:'2020-04-09',affirmPerson:'张三',affirmDesc:'备注信息'}],
+        loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
 		striped:true,
@@ -22,116 +20,118 @@ function loadAccountStatusQueryData(){
         columns:[[
 			{  
 	          title:'供应商编号',  
-	          field:'orderCode',  
+	          field:'supplierCode',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'供应商描述',  
-	          field:'supplierDesc',  
+	          field:'supplierName',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'对账单号',  
-	          field:'accountChecking',  
+	          field:'stateOrderId',  
               align:'center',
               width:50,
 			},
 			{  
                 title:'账单总金额',  
-                field:'accountSum',  
+                field:'totalAmount',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'账单总税额',  
-                field:'taxSum',  
+                field:'totalTax',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'总扣款金额',  
-                field:'kkSum',  
+                field:'meetAmount',  
                 align:'center',
                 width:50,  
             },
 			{  
                 title:'总应付金额',  
-                field:'yfSum',  
+                field:'totalPayment',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'账单状态',  
-                field:'accountState',  
+                field:'status',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'创建时间',  
-                field:'createDate',  
+                field:'createTime',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'确认时间',  
-                field:'affirmDate',  
+                field:'confirmTime',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'确认人',  
-                field:'affirmPerson',  
+                field:'confirmUser',  
                 align:'center',
                 width:50,  
 			}
 			
         ]],
-        loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-        },
-        onDblClickRow:onDblClickRowFunction,//双击事件
+        loader:function(param, success, error){
+			var params = {}; //声明一个
+			params.page  = param.page;
+			params.limit  = param.rows;
+			params.endDate = param.endDate;	// 	截止月份 	否 	否 	202003 	
+			params.startDate = param.startDate;	// 	开始月份 	否 	否 	202003 	
+			params.stateOrderId = param.stateOrderId;	// 	账单id 	否 	否 		
+			params.supplierName = param.supplierName;	// 	供应商名称 	否 	否
+			$.ajax({
+				url: ipAndPost+'/web/state/getStateOrderInfoList',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+                    var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
+		onDblClickRow:function(rowIndex, rowData){
+			onDblClickRowFunction(rowIndex,rowData)//双击事件
+		}
 	});
 }
 //行双击事件
-function onDblClickRowFunction(){
-    var row = $("#accountStatusQuery_dg").datagrid("getSelected");
-    $("#accountStatusQueryDetail_window").window("open").window("setTitle","订单明细信息");
+function onDblClickRowFunction(rowIndex,rowData){
+	$("#accountStatusQueryDetail_window").window("open").window("setTitle","订单明细信息");
+	$('#accountStatusQuery_dg').datagrid({
+		queryParams: {
+			stateOrderId : rowData.orderId
+		}
+	 });
     loadAccountStatusQueryDetail();
 }
 function loadAccountStatusQueryDetail(){
     $("#accountStatusQueryDetail_dg").datagrid({
-		url:"",
         loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
@@ -146,47 +146,69 @@ function loadAccountStatusQueryDetail(){
         columns:[[
 			{  
 	          title:'订单号',  
-	          field:'orderCode',  
+	          field:'orderId',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'物料编码',  
-	          field:'supplier',  
+	          field:'matterCode',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'物料描述',  
-	          field:'supplierCode',  
+	          field:'matterDesc',  
               align:'center',
               width:50,
 			},
 			{  
                 title:'对账数量',  
-                field:'placeAnOrderDate',  
+                field:'matterNum',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'数量单位',  
-                field:'buyer',  
+                field:'matterUtil',  
                 align:'center',
                 width:50,  
 			},
 			{  
                 title:'对账金额',  
-                field:'orderState',  
+                field:'amount',  
                 align:'center',
                 width:50,  
             },
 			{  
                 title:'对账税额',  
-                field:'affirmDate',  
+                field:'tax',  
                 align:'center',
                 width:50,  
 			}
-        ]],
+		]],
+		loader:function(param, success, error){
+			$.ajax({
+				url: ipAndPost+'/web/state/getStateOrderDetailList',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : param,
+				headers: {
+					'token':'1'
+				},
+				success: function(obj) {
+                    var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
         loadFilter:function(data){
 			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
 	            data = {
@@ -222,13 +244,25 @@ function loadAccountStatusQueryDetail(){
 	});
 }
 //查询
-function search(){
+function searchFunction(){
 	var begDate = $("#begDate").datebox('getValue');
 	var endDate = $("#endDate").datebox('getValue');
-	
+	var supplier = $("#supplier").textbox('getValue');
+	var accountCode = $("#accountCode").textbox('getValue');
+	$('#accountStatusQuery_dg').datagrid({
+		queryParams: {
+			endDate: endDate,
+			startDate:begDate,
+			stateOrderId : accountCode,	// 	账单id 	否 	否 
+			supplierName : supplier	// 	供应商名称 	否 	否
+		}
+	});
 }
 //重置
 function reset(){
 	$("#begDate").datebox('setValue',"");
 	$("#endDate").datebox('setValue',"");
+	$("#supplier").textbox('setValue',"");
+	$("#accountCode").textbox('setValue',"");
+	
 }

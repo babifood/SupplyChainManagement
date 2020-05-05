@@ -1,8 +1,56 @@
 [
-    { "id": "1", "parentID": "0", "enCode": "菜单1", "text": "权限管理", "iconCls": ""},
-    { "id": "2", "parentID": "1", "enCode": "按钮1", "text": "权限管理", "iconCls": ""},
-    { "id": "3", "parentID": "1", "enCode": "按钮2", "text": "权限管理", "iconCls": ""},
-    { "id": "4", "parentID": "0", "enCode": "菜单2", "text": "权限管理", "iconCls": ""},
-    { "id": "5", "parentID": "4", "enCode": "按钮1", "text": "权限管理", "iconCls": ""},
-    { "id": "6", "parentID": "4", "enCode": "按钮2", "text": "权限管理", "iconCls": ""}
+    {
+        "icon": "", 
+        "channel": 1,
+        "menuId": "", 
+        "menuName": "菜单1", 
+        "id": "1", 
+        "url": "string", 
+        "parentId": "0",
+        "status":true,
+        "menuInfoVoList": [
+            {
+              "icon": "", 
+              "channel": 1, 
+              "menuId": "but1", 
+              "menuName": "按钮1", 
+              "id": "2", 
+              "url": "string", 
+              "parentId": "1",
+              "status":true,
+              "menuInfoVoList": [
+                {
+                  "icon": "", 
+                  "channel": 1, 
+                  "menuId": "but1", 
+                  "menuName": "按钮1-1", 
+                  "id": "5", 
+                  "url": "string", 
+                  "parentId": "2",
+                  "status":true
+                },
+                {
+                  "icon": "", 
+                  "channel": 1, 
+                  "menuId": "but2", 
+                  "menuName": "按钮1-2", 
+                  "id": "6", 
+                  "url": "string", 
+                  "parentId": "2",
+                  "status":true
+                }
+              ]
+            },
+            {
+              "icon": "", 
+              "channel": 1, 
+              "menuId": "but2", 
+              "menuName": "按钮2", 
+              "id": "3", 
+              "url": "string", 
+              "parentId": "1",
+              "status":true
+            }
+          ]
+    }
 ]

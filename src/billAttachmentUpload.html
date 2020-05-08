@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <title>账单附件上传</title>
+</head>
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+        <table id="billAttachmentUpload_dg"></table>
+        <div id="billAttachmentUpload_tbar" style="padding: 5px;">
+            <div style="padding: 0 0 0 7px;color: #333;">
+                月份：<input type="text" class="easyui-datebox" id="begMonth" name="begMonth" style="width: 160px;" />
+                到：<input type="text" class="easyui-datebox" id="endMonth" name="endMonth" style="width: 160px;" />
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchFunction()">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="saveFunction()">保存</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/billAttachmentUpload.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/databoxHelper.js"></script>
+</html>

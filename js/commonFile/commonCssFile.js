@@ -1,2 +1,0 @@
-document.write('<link rel="stylesheet" type="text/css" href="../../easy-ui/themes/default/easyui.css" />');
-document.write('<link rel="stylesheet" type="text/css" href="../../easy-ui/themes/icon.css" />');

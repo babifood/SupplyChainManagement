@@ -1,5 +1,6 @@
 var ipAndPost = 'http://10.4.1.27:8582';
 $(function(){
+	setDateToMonth('month');
 	loadBillDownloadData();
 });
 function loadBillDownloadData(){

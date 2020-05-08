@@ -14,7 +14,7 @@ function RightAccordion(){
         border:false,
         animate:false  
     });
-    $.get("../json/menuTerr.json",{"menuID":"0"}, //获取第一层目录
+    $.get("json/menuTerr.json",{"menuID":"0"}, //获取第一层目录
             function (data) {
                 var topMenu =  filtrationJson(data,"0")
                 $.each(topMenu, function (i, e) {//循环创建手风琴的项

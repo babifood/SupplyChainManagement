@@ -1,5 +1,9 @@
 var ipAndPost = 'http://10.4.1.27:8582';
 $(function(){
+	var date = new Date();
+	thisDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+	$("#begDate").datebox('setValue',thisDate);
+	$("#endDate").datebox('setValue',thisDate);
 	loadShippingListQueryData();
 });
 function loadShippingListQueryData(){
@@ -103,7 +107,11 @@ function loadShippingListQueryData(){
                 width:50,  
 			}
 			
-        ]],
+		]],
+		queryParams: {
+			endDate : $("#endDate").datebox('getValue'),	// 	截止日期 	否 	否 	yyyy-MM-dd 	
+			startDate : $("#begDate").datebox('getValue'),	// 	开始日期 	否 	否 	yyyy-MM-dd 	
+		},
 		loader:function(param, success, error){
 			var params = {}; //声明一个对象
             params.page  = param.page;

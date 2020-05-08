@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <title>订单确认</title>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:55%">
+        <table id="order_dg"></table>
+        <div id="order_tbar" style="padding: 5px;">
+            <div style="padding: 0 0 0 7px;color: #333;margin-top: 3px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeFunction()">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-export" plain="true" onclick="exportFunction()">导出</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="saveFunction()">确定</a>
+	        </div>
+		</div>
+    </div>
+    <div data-options="region:'center'" title="订单明细查看">
+        <table id="product_dg"></table>    
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/orderAffirm.js"></script>
+</html>

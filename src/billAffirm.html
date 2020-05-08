@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <title>账单确认</title>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:50%">
+        <table id="billAffirm_dg"></table>
+        <div id="billAffirm_tbar" style="padding: 5px;">
+            <div style="padding: 0 0 0 7px;color: #333;">
+                月份：<input type="text" class="easyui-datebox" id="begMonth" name="begMonth" style="width: 160px;" />
+                到：<input type="text" class="easyui-datebox" id="endMonth" name="endMonth" style="width: 160px;" />
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true"
+                    onclick="searchFunction()">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" plain="true"
+                    onclick="saveFunction()">账单确认</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-export" plain="true"
+                    onclick="exportFunction()">账单导出</a>
+                <input type="radio" name="query_radio" value="1" onclick="radioOnClick(1)"/>未确认
+                <input type="radio" name="query_radio" value="2" onclick="radioOnClick(2)"/>已确认
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center'" title="账单收货物料小计明细查看">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'west',collapsible:false,border:false,split:true" style="width:50%">
+                <table id="product_dg"></table>
+            </div>
+            <div data-options="region:'center',border:false">
+                <table id="productInfo_dg"></table>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/billAffirm.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/databoxHelper.js"></script>
+</html>

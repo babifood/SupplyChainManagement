@@ -1,4 +1,4 @@
-var ipAndPost = 'http://10.4.1.27:8582';
+var ipAndPost = 'http://10.4.1.27:8382';
 var editIndex = undefined;
 //初始化
 $(function(){

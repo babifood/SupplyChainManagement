@@ -11,7 +11,7 @@ function loadShippingListQueryData(){
 		url:"",
         loadMsg:"数据加载中......",
 		fit:true,
-		fitColumns:true,
+		// fitColumns:true,
 		striped:true,
 		border:false,
 		pagination:true,
@@ -26,85 +26,85 @@ function loadShippingListQueryData(){
 	          title:'发货单号',  
 	          field:'deliveryId',  
               align:'center',
-              width:20,
+              width:100,
 			},
 			{  
 	          title:'供应商',  
 	          field:'supplierName',  
               align:'center',
-              width:20,
+              width:100,
 			},
 			{  
 	          title:'供应商编号',  
 	          field:'supplierCode',  
               align:'center',
-              width:30,
+              width:100,
 			},
 			{  
                 title:'订单号',  
                 field:'orderId',  
                 align:'center',
-                width:20,  
+                width:100,  
 			},
 			{  
                 title:'物料编码',  
                 field:'matterCode',  
                 align:'center',
-                width:20,  
+                width:100,  
 			},
 			{  
                 title:'物料描述',  
-                field:'matterDesc',  
+                field:'matterName',  
                 align:'center',
-                width:20,  
+                width:100,  
             },
 			{  
                 title:'订单数',  
-                field:'matterNum',  
+                field:'orderNum',  
                 align:'center',
-                width:20,  
+                width:100,  
 			},
 			{  
                 title:'单位',  
                 field:'matterUtil',  
                 align:'center',
-                width:20,  
+                width:100,  
 			},
 			{  
                 title:'发货数量',  
-                field:'9',  
+                field:'matterNum',  
                 align:'center',
-                width:20,  
+                width:100,  
 			},
 			{  
                 title:'预计到货时间',  
                 field:'expectTime',  
                 align:'center',
-                width:30,  
+                width:100,  
 			},
 			{  
                 title:'配送方式',  
                 field:'shippingMethod',  
                 align:'center',
-                width:20,  
+                width:100,  
 			},
 			{  
                 title:'通知提交时间',  
-                field:'createTime',  
+                field:'submitTime',  
                 align:'center',
-                width:30,  
+                width:100,  
             },
 			{  
                 title:'发货提交人',  
                 field:'deliveryName',  
                 align:'center',
-                width:30,  
+                width:100,  
 			},
 			{  
                 title:'发货备注说明',  
                 field:'description',  
                 align:'center',
-                width:50,  
+                width:100,  
 			}
 			
 		]],
@@ -123,13 +123,13 @@ function loadShippingListQueryData(){
 			params.purchaser = param.purchaser;	// 	采购员 	否 	否 		
 			params.supplierName = param.supplierName;	// 	供应商 	否 	否	
 			$.ajax({
-				url: ipAndPost+'/web/delivery/getDeliveryOrderInfoList',
+				url: '/web/delivery/getDeliveryOrderInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {

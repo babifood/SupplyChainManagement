@@ -75,7 +75,7 @@ function loadUserStatusMonitoringData(){
 			},
 			{  
                 title:'供应商名称',  
-                field:'providerCompany',  
+                field:'companyName',  
                 align:'center',
                 width:50, 
 			}
@@ -84,17 +84,17 @@ function loadUserStatusMonitoringData(){
 			var params = {}; //声明一个对象
             params.page  = param.page;
 			params.limit  = param.rows;
-			supplierName = param.supplierName;	// 	供应商名称 	否 	否 		
-			userId = param.userId; 	// 	用户id 	否 	否 		
-			userName = param.userName; 	// 	用户名称 	否 	否
+			params.supplierName = param.supplierName;	// 	供应商名称 	否 	否 		
+			params.userId = param.userId; 	// 	用户id 	否 	否 		
+			params.userName = param.userName; 	// 	用户名称 	否 	否
 			$.ajax({
-				url: ipAndPost+'/auth/user/getUserStatusList',
+				url: '/auth/user/getUserStatusList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {

@@ -73,13 +73,13 @@ function loadRole(){
 			// params.roleName ='';	// 	角色名称 	是 	否 		
 			// params.roleId =''	// 	角色id 	是 	否 		
 			$.ajax({
-				url: ipAndPost+'/auth/role/findRoleInfoList',
+				url:'/auth/role/findRoleInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
@@ -125,7 +125,7 @@ function append(dgId){
 	}
 }
 function removeit(dgId){
-	if (editIndex == undefined){return}
+	// if (editIndex == undefined){return}
 	var rowData =$('#'+dgId).datagrid('getSelected');
 	var index = $('#'+dgId).datagrid("getRowIndex",rowData);
 	var node = $('#'+dgId).datagrid("getChecked");
@@ -135,13 +135,13 @@ function removeit(dgId){
 	$.messager.confirm("提示","确定要删除此数据？",function(r){
 		if(r){
 			$.ajax({
-				url: ipAndPost+'/auth/role/removeRoleInfo',
+				url: '/auth/role/removeRoleInfo',
 				type:"post",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(data),
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				beforeSend:function(){
 					$.messager.progress({
@@ -160,6 +160,7 @@ function removeit(dgId){
 						$('#'+dgId).datagrid('cancelEdit', index).datagrid('deleteRow', index).datagrid('clearSelections',node);
 						$('#'+dgId).datagrid('acceptChanges');
 						editIndex = undefined;	
+						$('#'+dgId).datagrid('reload',{});	
 					}
 				},
 				error : function(e){
@@ -202,10 +203,10 @@ function accept(dgId){
 			logicIds:logicArr
 		}
 		if(rowData.roleId==undefined||rowData.roleId==''||rowData.roleId==null){
-			url = ipAndPost+'/auth/role/saveRoleInfo';
+			url = '/auth/role/saveRoleInfo';
 			msg = '保存成功!';
 		}else{
-			url = ipAndPost+'/auth/role/updateRoleInfo';
+			url = '/auth/role/updateRoleInfo';
 			msg = '修改成功!';
 			data.roleId=rowData.roleId;
 		}
@@ -216,7 +217,7 @@ function accept(dgId){
 			contentType: "application/json;charset=UTF-8",
 			data : JSON.stringify(data),
 			headers: {
-				'token':'1',
+				'token':sessionStorage.getItem('token'),
 				'userName' :'1'
 			},
 			beforeSend:function(){
@@ -234,6 +235,7 @@ function accept(dgId){
 						showType:'slide'
 					});
 					$('#'+dgId).datagrid('acceptChanges');
+					$('#'+dgId).datagrid('reload',{});
 				}else{
 					$.messager.show({
 						title:'消息提醒',
@@ -282,14 +284,14 @@ function loadPcMenuTree(){
 			var params = {}; //声明一个	
 			params.roleId = param.roleId==null?'':param.roleId;
 			$.ajax({
-				url: ipAndPost+'/auth/menu/findMenusOfRole',
+				url: '/auth/menu/findMenusOfRole',
 				// url:'../json/pcMenu.json',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
 					var data = convertNode(obj.data.pcMenuList);
@@ -319,16 +321,16 @@ function loadPhoneMenuTree(){
 		cascadeCheck:false,
 		loader:function(param, success, error){
 			var params = {}; //声明一个	
-			params.roleId = '';
+			params.roleId = param.roleId==null?'':param.roleId;
 			$.ajax({
-				url: ipAndPost+'/auth/menu/findMenusOfRole',
+				url: '/auth/menu/findMenusOfRole',
 				// url:'../json/pcMenu.json',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
 					var data = convertNode(obj.data.mobileMenuList);
@@ -388,16 +390,16 @@ function loadCompany(){
 		]],
 		loader:function(param, success, error){
 			var params = {}; //声明一个	
-			params.roleId = '';
+			params.roleId = param.roleId==null?'':param.roleId;
 			$.ajax({
-				url: ipAndPost+'/auth/menu/findMenusOfRole',
+				url: '/auth/menu/findMenusOfRole',
 				// url:'../json/pcMenu.json',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     success(obj.data.companyList);
@@ -407,6 +409,15 @@ function loadCompany(){
 				}
 			})
 		},
+		onLoadSuccess: function (data) {
+            if (data) {
+                $.each(data.rows, function (index, item) {
+                    if (item.status == 1) {
+                        $('#company_dg').datagrid('checkRow', index);
+                    }
+                });
+            }
+        },
 	})	
 }
 //书节点装换

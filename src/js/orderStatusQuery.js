@@ -103,13 +103,13 @@ function loadOrderStatusQueryData(){
 			params.purchaser = '';	// 	采购员 	否 	否 		
 			params.supplierName = '';	// 	供应商名称 	否 	否 		
 			$.ajax({
-				url: ipAndPost+'/web/purchase/getPurchaseOrderInfoList',
+				url: '/web/purchase/getPurchaseOrderInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
@@ -142,10 +142,10 @@ function loadOrderStatusQueryDetail(){
 		fitColumns:true,
 		striped:true,
 		border:false,
-		pagination:true,
-		pageSize : 10,
-		pageList : [10, 20, 30 ],
-		pageNumber:1,
+		// pagination:true,
+		// pageSize : 10,
+		// pageList : [10, 20, 30 ],
+		// pageNumber:1,
 		singleSelect:true,
 		rownumbers:true,
         columns:[[
@@ -215,18 +215,17 @@ function loadOrderStatusQueryDetail(){
 			var params = {}; //声明一个对象
 			params.orderId = param.orderId;
 			$.ajax({
-				url: ipAndPost+'/web/purchase/getPurchaseOrderDetail',
+				url:'/web/purchase/getPurchaseOrderDetail',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
-						rows:obj.data.list,
-						total:obj.data.total
+						rows:obj.data,
 					}
                     success(data);
 				},
@@ -235,38 +234,6 @@ function loadOrderStatusQueryDetail(){
 				}
 			})
 		},
-		loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-		}
 	});
 }
 //查询

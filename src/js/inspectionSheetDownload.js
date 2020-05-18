@@ -99,13 +99,13 @@ function loadInspectionSheetDownloadData(){
 			params.orderId = param.orderId;	// 	订单id 	否 	否 		
 			params.supplierName = param.supplierName;	// 	供应商名称
 			$.ajax({
-				url: ipAndPost+'/web/examineFile/getExamineFileInfoList',
+				url:'/web/examineFile/getExamineFileInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {

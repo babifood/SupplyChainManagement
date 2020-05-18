@@ -1,4 +1,4 @@
-var ipAndPost = 'http://10.4.1.27:8582';
+// var ipAndPost = 'http://10.4.1.27:8582';
 //初始化
 $(function(){
 	loadAccountStatusQueryData();
@@ -7,7 +7,7 @@ function loadAccountStatusQueryData(){
 	$("#accountStatusQuery_dg").datagrid({
         loadMsg:"数据加载中......",
 		fit:true,
-		fitColumns:true,
+		// fitColumns:true,
 		striped:true,
 		border:false,
 		pagination:true,
@@ -22,67 +22,67 @@ function loadAccountStatusQueryData(){
 	          title:'供应商编号',  
 	          field:'supplierCode',  
               align:'center',
-              width:50,
+              width:100,
 			},
 			{  
 	          title:'供应商描述',  
 	          field:'supplierName',  
               align:'center',
-              width:50,
+              width:100,
 			},
 			{  
 	          title:'对账单号',  
 	          field:'stateOrderId',  
               align:'center',
-              width:50,
+              width:100,
 			},
 			{  
                 title:'账单总金额',  
                 field:'totalAmount',  
                 align:'center',
-                width:50,  
+                width:100,  
 			},
 			{  
                 title:'账单总税额',  
                 field:'totalTax',  
                 align:'center',
-                width:50,  
+                width:100,  
 			},
 			{  
                 title:'总扣款金额',  
                 field:'meetAmount',  
                 align:'center',
-                width:50,  
+                width:100,  
             },
 			{  
                 title:'总应付金额',  
                 field:'totalPayment',  
                 align:'center',
-                width:50,  
+                width:100,  
 			},
 			{  
                 title:'账单状态',  
                 field:'status',  
                 align:'center',
-                width:50,  
+                width:100,  
 			},
 			{  
                 title:'创建时间',  
                 field:'createTime',  
                 align:'center',
-                width:50,  
+                width:100,  
 			},
 			{  
                 title:'确认时间',  
                 field:'confirmTime',  
                 align:'center',
-                width:50,  
+                width:100,  
 			},
 			{  
                 title:'确认人',  
                 field:'confirmUser',  
                 align:'center',
-                width:50,  
+                width:100,  
 			}
 			
         ]],
@@ -95,13 +95,13 @@ function loadAccountStatusQueryData(){
 			params.stateOrderId = param.stateOrderId;	// 	账单id 	否 	否 		
 			params.supplierName = param.supplierName;	// 	供应商名称 	否 	否
 			$.ajax({
-				url: ipAndPost+'/web/state/getStateOrderInfoList',
+				url: '/web/state/getStateOrderInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
@@ -189,13 +189,13 @@ function loadAccountStatusQueryDetail(){
 		]],
 		loader:function(param, success, error){
 			$.ajax({
-				url: ipAndPost+'/web/state/getStateOrderDetailList',
+				url:'/web/state/getStateOrderDetailList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : param,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {

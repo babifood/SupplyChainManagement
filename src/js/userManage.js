@@ -16,14 +16,23 @@ function loadRole(){
 		fitColumns:true,
 		striped:true,
 		border:false,
-		pagination:true,
-		pageSize : 10,
-		pageList : [10, 20, 30 ],
-		pageNumber:1,
+		// pagination:true,
+		// pageSize : 10,
+		// pageList : [10, 20, 30 ],
+		// pageNumber:1,
         singleSelect:true,
         checkOnSelect:true,
 		rownumbers:true,
 		columns:[[
+			{
+				field:"roleId",
+				hidden:"true",
+			},
+			{
+                field:"status",
+                align:'center',
+				checkbox:true
+			},
 			{
 				field:"name",
                 title:"角色名称",
@@ -35,30 +44,25 @@ function loadRole(){
                 align:'center',
                 width:100,
 			},
-			{
-                field:"ck",
-                align:'center',
-				checkbox:true
-			}
+			
 		]],
 		loader:function(param, success, error){
 			var params = {}; //声明一个对象
             params.page  = param.page;
 			params.limit  = param.rows;
-			params.userId = param.userId;	
+			params.userId = param.userId==null?'':param.userId;	
 			$.ajax({
-				url: ipAndPost+'/auth/role/findRolesOfUser',
+				url: '/auth/role/findRolesOfUser',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
-						rows:obj.data.list,
-						total:obj.data.total
+						rows:obj.data,
 					}
                     success(data);
 				},
@@ -66,7 +70,16 @@ function loadRole(){
 					error(e)
 				}
 			})
-		}
+		},
+		onLoadSuccess: function (data) {
+            if (data) {
+                $.each(data.rows, function (index, item) {
+                    if (item.status == 1) {
+                        $('#role_dg').datagrid('checkRow', index);
+                    }
+                });
+            }
+        },
 	})	
 }
 //加载用户列表
@@ -141,13 +154,13 @@ function loadUser(){
 							params.page  = param.page;
 							params.limit  = param.rows;	
 							$.ajax({
-								url: ipAndPost+'/web/company/findCompanyInfoList',
+								url: '/web/company/findCompanyInfoList',
 								type:"get",
 								//请求的媒体类型
 								contentType: "application/json;charset=UTF-8",
 								data : params,
 								headers: {
-									'token':'1'
+									'token':sessionStorage.getItem('token')
 								},
 								success: function(obj) {
 									var data = {
@@ -178,9 +191,10 @@ function loadUser(){
 				title:"电话",
 				width:150,
 				editor:{
-					type:'textbox',
+					type:'validatebox',
 					options:{
-                    }
+                        required:true
+					}
 				}
 			},
             {
@@ -199,25 +213,24 @@ function loadUser(){
 				title:"用户状态",
 				width:100,
 				formatter:function(value,row){
-                    return row.userStateName;
-                },
-                editor:{
-                    type:'combobox',
-                    options:{
-                        valueField:'status',
-                        textField:'userStateName',
-                        data:[
-                            {status:0,userStateName:"启用"},
-                            {status:1,userStateName:"禁用"}
-                        ],
-                    }
-				}				
-                
+                    if(value==1){
+						return '启用'
+					}else if(value==2){
+						return '禁用'
+					}
+                },   
 			},
 			{
 				field:"userType",
 				title:"账户类别",
 				width:100,
+				formatter:function(value,row){
+                    if(value==0){
+						return '内部'
+					}else if(value==1){
+						return '外部'
+					}
+                },   
 				
             },
 			{
@@ -242,13 +255,13 @@ function loadUser(){
 			params.limit  = param.rows;
 			params.userType	 = param.userType;	
 			$.ajax({
-				url: ipAndPost+'/auth/user/getUserInfoList',
+				url: '/auth/user/getUserInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
@@ -311,7 +324,7 @@ function append(dgId){
 	}
 }
 function removeit(dgId){
-	if (editIndex == undefined){return}
+	// if (editIndex == undefined){return}
 	var rowData =$('#'+dgId).datagrid('getSelected');
 	var index = $('#'+dgId).datagrid("getRowIndex",rowData);
 	var node = $('#'+dgId).datagrid("getChecked");
@@ -321,13 +334,13 @@ function removeit(dgId){
 	$.messager.confirm("提示","确定要删除此数据？",function(r){
 		if(r){
 			$.ajax({
-				url: ipAndPost+'/auth/user/removeUserInfo',
+				url: '/auth/user/removeUserInfo',
 				type:"post",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(data),
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				beforeSend:function(){
 					$.messager.progress({
@@ -346,6 +359,14 @@ function removeit(dgId){
 						$('#'+dgId).datagrid('cancelEdit', index).datagrid('deleteRow', index).datagrid('clearSelections',node);
 						$('#'+dgId).datagrid('acceptChanges');
 						editIndex = undefined;	
+						$('#'+dgId).datagrid('reload',{});
+					}else{
+						$.messager.show({
+							title:'消息提醒',
+							msg:obj.message,
+							timeout:3000,
+							showType:'slide'
+						});
 					}
 				},
 				error : function(e){
@@ -376,11 +397,11 @@ function accept(dgId){
 			userName :rowData.userName,	//string 	用户名称 	是 	否 		
 		}
 		if(rowData.userId==undefined||rowData.userId==''||rowData.userId==null){
-			url = ipAndPost+'/auth/user/saveUserInfo';
+			url = '/auth/user/saveUserInfo';
 			msg = '保存成功!';
 			data.userType = '0';	//string 	用户类型：0内部，1外部 	是 	否
 		}else{
-			url = ipAndPost+'/auth/user/updateUserInfo';
+			url = '/auth/user/updateUserInfo';
 			msg = '修改成功!';
 			data.userId=rowData.userId;
 			data.description = '';
@@ -393,7 +414,7 @@ function accept(dgId){
 			contentType: "application/json;charset=UTF-8",
 			data : JSON.stringify(data),
 			headers: {
-				'token':'1',
+				'token':sessionStorage.getItem('token'),
 				'userName' :'1'
 			},
 			beforeSend:function(){
@@ -411,6 +432,14 @@ function accept(dgId){
 						showType:'slide'
 					});
 					$('#'+dgId).datagrid('acceptChanges');
+					$('#'+dgId).datagrid('reload',{});
+				}else{
+					$.messager.show({
+						title:'消息提醒',
+						msg:obj.message,
+						timeout:3000,
+						showType:'slide'
+					});
 				}
 			},
 			error : function(e){

@@ -61,13 +61,13 @@ function loadDeliveryMode(){
 			params.shippingId = '';
 			params.shippingName = '';
 			$.ajax({
-				url: ipAndPost+'/web/shippingMethod/findShippingMethodInfoList',
+				url:'/web/shippingMethod/findShippingMethodInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
@@ -113,7 +113,7 @@ function append(dgId){
 	}
 }
 function removeit(dgId){
-	if (editIndex == undefined){return}
+	// if (editIndex == undefined){return}
 	var rowData =$('#'+dgId).datagrid('getSelected');
 	var index = $('#'+dgId).datagrid("getRowIndex",rowData);
 	var node = $('#'+dgId).datagrid("getChecked");
@@ -123,13 +123,13 @@ function removeit(dgId){
 	$.messager.confirm("提示","确定要删除此数据？",function(r){
 		if(r){
 			$.ajax({
-				url: ipAndPost+'/web/shippingMethod/removeShippingMethodInfo',
+				url:'/web/shippingMethod/removeShippingMethodInfo',
 				type:"post",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(data),
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				beforeSend:function(){
 					$.messager.progress({
@@ -147,7 +147,8 @@ function removeit(dgId){
 						});
 						$('#'+dgId).datagrid('cancelEdit', index).datagrid('deleteRow', index).datagrid('clearSelections',node);
 						$('#'+dgId).datagrid('acceptChanges');
-						editIndex = undefined;	
+						editIndex = undefined;
+						$('#'+dgId).datagrid('reload',{});	
 					}
 				},
 				error : function(e){
@@ -168,10 +169,10 @@ function accept(dgId){
 			shippingName: rowData.shippingName
 		}
 		if(rowData.companyId==undefined||rowData.companyId==''||rowData.companyId==null){
-			url = ipAndPost+'/web/shippingMethod/saveShippingMethodInfo';
+			url ='/web/shippingMethod/saveShippingMethodInfo';
 			msg = '保存成功!';
 		}else{
-			url = ipAndPost+'/web/shippingMethod/updateShippingMethodInfo';
+			url ='/web/shippingMethod/updateShippingMethodInfo';
 			msg = '修改成功!';
 			data.shippingId=rowData.shippingId;
 		}
@@ -182,7 +183,7 @@ function accept(dgId){
 			contentType: "application/json;charset=UTF-8",
 			data : JSON.stringify(data),
 			headers: {
-				'token':'1',
+				'token':sessionStorage.getItem('token'),
 				'userName' :'1'
 			},
 			beforeSend:function(){
@@ -200,6 +201,14 @@ function accept(dgId){
 						showType:'slide'
 					});
 					$('#'+dgId).datagrid('acceptChanges');
+					$('#'+dgId).datagrid('reload',{});
+				}else{
+					$.messager.show({
+						title:'消息提醒',
+						msg:obj.message,
+						timeout:5000,
+						showType:'slide'
+					});
 				}
 			},
 			error : function(e){

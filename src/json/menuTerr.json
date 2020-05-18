@@ -1,14 +1,15 @@
 [
     { "id": "1", "parentID": "0", "enCode": "SysManage", "text": "权限管理", "iconCls": "icon-group-gear", "url": ""},
-    { "id": "2", "parentID": "1", "enCode": "OrleManage", "text": "角色管理", "iconCls": "icon-group", "url": "orleManage.html" },
-    { "id": "3", "parentID": "1", "enCode": "UserManage", "text": "用户管理", "iconCls": "icon-user", "url": "userManage.html" },
-    { "id": "4", "parentID": "1", "enCode": "UserStatusMonitoring", "text": "用户状态监控", "iconCls": "", "url": "userStatusMonitoring.html" },
+    { "id": "2", "parentID": "1", "enCode": "MenuSet", "text": "菜单配置", "iconCls": "icon-group", "url": "menuSet.html" },
+    { "id": "3", "parentID": "1", "enCode": "OrleManage", "text": "角色管理", "iconCls": "icon-group", "url": "orleManage.html" },
+    { "id": "4", "parentID": "1", "enCode": "UserManage", "text": "用户管理", "iconCls": "icon-user", "url": "userManage.html" },
+    { "id": "5", "parentID": "1", "enCode": "UserStatusMonitoring", "text": "用户状态监控", "iconCls": "", "url": "userStatusMonitoring.html" },
 
-    { "id": "5", "parentID": "0", "enCode": "SysManage", "text": "基础数据", "iconCls": "", "url": ""},
-    { "id": "6", "parentID": "5", "enCode": "UserInvitationCode", "text": "用户邀请码", "iconCls": "", "url": "userInvitationCode.html" },
-    { "id": "7", "parentID": "5", "enCode": "DeliveryMode", "text": "配送方式", "iconCls": "", "url": "deliveryMode.html" },
-    { "id": "8", "parentID": "5", "enCode": "CompanyOrganization", "text": "公司组织", "iconCls": "", "url": "companyOrganization.html" },
-    { "id": "9", "parentID": "5", "enCode": "TarRateSet", "text": "税率设置", "iconCls": "", "url": "tarRateSet.html" },
+    { "id": "6", "parentID": "0", "enCode": "SysManage", "text": "基础数据", "iconCls": "", "url": ""},
+    
+    { "id": "7", "parentID": "6", "enCode": "DeliveryMode", "text": "配送方式", "iconCls": "", "url": "deliveryMode.html" },
+    { "id": "8", "parentID": "6", "enCode": "CompanyOrganization", "text": "公司组织", "iconCls": "", "url": "companyOrganization.html" },
+    
 
     { "id": "10", "parentID": "0", "enCode": "SysManage", "text": "业务管理", "iconCls": "", "url": ""},
     { "id": "11", "parentID": "10", "enCode": "OrderAffirm", "text": "订单确认", "iconCls": "", "url": "orderAffirm.html" },

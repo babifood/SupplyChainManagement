@@ -67,13 +67,13 @@ function loadCompanyOrganization(){
 			params.companyId = '';
 			params.companyName = '';
 			$.ajax({
-				url: ipAndPost+'/web/company/findCompanyInfoList',
+				url:'/web/company/findCompanyInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
@@ -119,7 +119,7 @@ function append(dgId){
 	}
 }
 function removeit(dgId){
-	if (editIndex == undefined){return}
+	// if (editIndex == undefined){return}
 	var rowData =$('#'+dgId).datagrid('getSelected');
 	var index = $('#'+dgId).datagrid("getRowIndex",rowData);
 	var node = $('#'+dgId).datagrid("getChecked");
@@ -129,13 +129,13 @@ function removeit(dgId){
 	$.messager.confirm("提示","确定要删除此数据？",function(r){
 		if(r){
 			$.ajax({
-				url: ipAndPost+'/web/company/removeCompanyInfo',
+				url:'/web/company/removeCompanyInfo',
 				type:"post",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : JSON.stringify(data),
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				beforeSend:function(){
 					$.messager.progress({
@@ -153,7 +153,15 @@ function removeit(dgId){
 						});
 						$('#'+dgId).datagrid('cancelEdit', index).datagrid('deleteRow', index).datagrid('clearSelections',node);
 						$('#'+dgId).datagrid('acceptChanges');
-						editIndex = undefined;	
+						editIndex = undefined;
+						$('#'+dgId).datagrid('reload',{});	
+					}else{
+						$.messager.show({
+							title:'消息提醒',
+							msg:obj.message,
+							timeout:3000,
+							showType:'slide'
+						});
 					}
 				},
 				error : function(e){
@@ -174,10 +182,10 @@ function accept(dgId){
 			description: rowData.description
 		}
 		if(rowData.companyId==undefined||rowData.companyId==''||rowData.companyId==null){
-			url = ipAndPost+'/web/company/saveCompanyInfo';
+			url ='/web/company/saveCompanyInfo';
 			msg = '保存成功!';
 		}else{
-			url = ipAndPost+'/web/company/updateCompanyInfo';
+			url ='/web/company/updateCompanyInfo';
 			msg = '修改成功!';
 			data.companyId=rowData.companyId;
 		}
@@ -188,7 +196,7 @@ function accept(dgId){
 			contentType: "application/json;charset=UTF-8",
 			data : JSON.stringify(data),
 			headers: {
-				'token':'1',
+				'token':sessionStorage.getItem('token'),
 				'userName' :'1'
 			},
 			beforeSend:function(){
@@ -206,6 +214,14 @@ function accept(dgId){
 						showType:'slide'
 					});
 					$('#'+dgId).datagrid('acceptChanges');
+					$('#'+dgId).datagrid('reload',{});	
+				}else{
+					$.messager.show({
+						title:'消息提醒',
+						msg:obj.message,
+						timeout:3000,
+						showType:'slide'
+					});
 				}
 			},
 			error : function(e){

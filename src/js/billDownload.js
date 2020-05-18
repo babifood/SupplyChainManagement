@@ -86,13 +86,13 @@ function loadBillDownloadData(){
 			params.supplierName = param.supplierName;	// 	供应商名称 	否 	否 		
 			params.stateOrderId = param.stateOrderId;	// 	账单id 	否 	否		
 			$.ajax({
-				url: ipAndPost+'/web/stateFile/getStateFileInfoList',
+				url:'/web/stateFile/getStateFileInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':'1'
+					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {

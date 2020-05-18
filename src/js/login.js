@@ -1,4 +1,4 @@
-var ipAndPost = 'http://10.4.1.27:8382';
+var ip = 'http://10.4.1.27:81'
 function loginSubmit(){
     var isValid = $("#loginForm").form("validate");
 	if(isValid){
@@ -11,27 +11,28 @@ function loginSubmit(){
             password: password
         }
         $.ajax({
-            url: ipAndPost+'/auth/login/loginPc',
+            url:'/auth/login/loginPc',
             type:"post",
             //请求的媒体类型
             contentType: "application/json;charset=UTF-8",
             data : JSON.stringify(data),
             headers: {
-                'token':'1'
+                'token':'1',
             },
             beforeSend:function(){
                 $.messager.progress({
                     text:'登录中......',
                 });
             },
-            success: function(obj) {
+            success: function(res,textStatus,request) {
                 $.messager.progress('close');
-                if(obj.code == "200"){
+                if(res.code == "200"){
+                    sessionStorage.setItem("token",request.getResponseHeader("token"));
                     window.location.href = '../src/index.html'
                 }else{
                     $.messager.show({
                         title:'消息提醒',
-                        msg:obj.message,
+                        msg:res.message,
                         timeout:3000,
                         showType:'slide'
                     });	

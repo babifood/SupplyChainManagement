@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
     <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/billAttachmentUpload.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/databoxHelper.js"></script>
     <title>账单附件上传</title>
 </head>
 <body>
@@ -15,15 +20,46 @@
             <div style="padding: 0 0 0 7px;color: #333;">
                 月份：<input type="text" class="easyui-datebox" id="begMonth" name="begMonth" style="width: 160px;" />
                 到：<input type="text" class="easyui-datebox" id="endMonth" name="endMonth" style="width: 160px;" />
-                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchFunction()">添加</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="saveFunction()">保存</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" plain="true" onclick="searchFunction()">查找</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" plain="true" onclick="uploadFiles()">上传附件</a>
             </div>
         </div>
     </div>
+    <div id="files_dog" class="easyui-dialog" closed="true" title="附件上传列表" data-options="modal: true" buttons="#files_dlg_buttons" style="width: 600px;">
+        <div style="margin: 0;padding: 20px 50px;">
+            <form id="files_form">
+                <div style="margin-bottom: 10px;">
+                    <div>账单上传:</div>
+                    <input class="easyui-filebox" id = "billFiles" name="files"
+                                            data-options="prompt:'按住Ctrl建可选择多个文件',buttonText:'选择文件',multiple:'true',separator:';'" style="width:100%"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>发票上传:</div>
+                    <input class="easyui-filebox" id = "invoiceFiles" name="files"
+                                            data-options="prompt:'按住Ctrl建可选择多个文件',buttonText:'选择文件',multiple:'true',separator:';'" style="width:100%"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>其他发件1:</div>
+                    <input class="easyui-filebox" id = "otherFiles1" name="files"
+                                            data-options="prompt:'按住Ctrl建可选择多个文件',buttonText:'选择文件',multiple:'true',separator:';'" style="width:100%"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>其他发件2:</div>
+                    <input class="easyui-filebox" id = "otherFiles2" name="files"
+                                            data-options="prompt:'按住Ctrl建可选择多个文件',buttonText:'选择文件',multiple:'true',separator:';'" style="width:100%"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>其他发件3:</div>
+                    <input class="easyui-filebox" id = "otherFiles3" name="files"
+                                            data-options="prompt:'按住Ctrl建可选择多个文件',buttonText:'选择文件',multiple:'true',separator:';'" style="width:100%"/>
+                </div>
+            </form>
+        </div>
+   </div>	  		
+  <div id="files_dlg_buttons" style="text-align: center;">
+      <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveFiles()" style="width: 90px;">保存</a>
+      <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#files_dog').dialog('close')" style="width: 90px;">取消</a>
+  </div> 
 </body>
-<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/billAttachmentUpload.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/databoxHelper.js"></script>
+    
 </html>

@@ -17,10 +17,12 @@
             <div style="margin-bottom: 5px;">
                 <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
                     onclick="append()">新增</a>
-                    <!-- <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" 
-                    onclick="update()">修改</a> -->
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" 
+                    onclick="update()">修改</a>
                     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" 
                     onclick="removeit()">删除</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-find',plain:true" 
+                    onclick="look()">查看消息</a>
                     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true" 
                     onclick="send()">发布消息</a>
             </div>
@@ -34,13 +36,11 @@
                     <table cellpadding="5">
                         <tr>
                             <td>通知单号:</td>
-                            <td><input class="easyui-textbox" type="text" id = "notificationCode" name="notificationCode" data-options="required:true"
+                            <td><input class="easyui-textbox" type="text" id = "notificationCode" name="notificationCode" data-options="prompt:'编号系统自动生成'"  editable ='editable'
                                     style="width: 100%;"></input></td>
                             <td>通知类型:</td>
                             <td>
-                                <select class="easyui-combobox" id = "notificationType" name="notificationType" data-options="required:true,onSelect: function(rec){
-                                        notificationTypeOnSelect(rec)
-                                    }"style="width: 100%;">
+                                <select class="easyui-combobox" id = "notificationType" name="notificationType" data-options="required:true,"style="width: 100%;">
                                     <option value="TY">通用类</option>
                                     <option value="XQ">需求类</option>
                                     <option value="JC">奖惩类</option>
@@ -49,15 +49,8 @@
                         </tr>
                         <tr>
                             <td>标题:</td>
-                            <td colspan="3"><input class="easyui-textbox" type="text" name="notificationTitle"
+                            <td colspan="3"><input class="easyui-textbox" type="text" id="notificationTitle" name="notificationTitle"
                                     data-options="required:true" style="width: 100%;"></input></td>
-                        </tr>
-                        <tr>
-                            <td>上传附件:</td>
-                            <td colspan="3">
-                                <input class="easyui-filebox" id = "notificationFiles" name="notificationFiles"
-                                    data-options="prompt:'选择文件',buttonText:'选择文件',multiple:'true',separator:';'" style="width:100%"/>
-                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -74,10 +67,22 @@
                         <tr>
                             <td>通知内容:</td>
                             <td colspan="3">
-                                <input class="easyui-textbox" name="notificationContext" data-options="multiline:true"
+                                <input class="easyui-textbox" id="notificationContext" name="notificationContext" data-options="multiline:true"
                                     style="height:240px;width: 100%;"></input>
                             </td>
                         </tr>
+                        <tr>
+                            <td>上传附件:</td>
+                            <td colspan="3">
+                                <input class="easyui-filebox" id = "notificationFiles" name="notificationFiles" 
+                                    data-options="prompt:'选择文件',buttonText:'选择文件',multiple:'true',separator:';',accept:'image/jpg,image/jpeg,image/png'" style="width:100%"/>
+                            </td>
+                        </tr>
+                        <!-- <tr id="filelist">
+                            <td>附件列表:</td>
+                                <table id="files_dg"></table>
+                            </td>
+                        </tr> -->
                     </table>
                 </form>
             </div>
@@ -99,7 +104,7 @@
                 </div>
             </div>
             <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0 0;">
-                <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0)" onclick="saveMassage()"
+                <a class="easyui-linkbutton" id = 'save_linkbutton' data-options="iconCls:'icon-save'" href="javascript:void(0)" onclick="saveMassage()"
                     style="width:80px">保存</a>
                 <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)"
                     onclick="javascript:$('#notificationManage_window').window('close')" style="width:80px">取消</a>

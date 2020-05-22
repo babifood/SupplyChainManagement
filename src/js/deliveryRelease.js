@@ -1,3 +1,4 @@
+var ipAndPost = 'http://10.4.1.27:8582'
 //初始化
 $(function(){
     loadDeliveryReleaseShwoData();
@@ -28,19 +29,19 @@ function loadDeliveryReleaseShwoData(){
             },
 			{  
 	          title:'订单号',  
-	          field:'lifnr',  
+	          field:'orderId',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'物料编码',  
-	          field:'1',  
+	          field:'matterCode',  
               align:'center',
               width:50,
 			},
 			{  
 	          title:'物料名称',  
-	          field:'2',  
+	          field:'matterName',  
               align:'center',
               width:50,
 			},
@@ -81,31 +82,32 @@ function loadDeliveryReleaseShwoData(){
               width:50,
 			}
         ]],
-        // loader:function(param, success, error){
-		// 	var params = {}; //声明一个对象
-        //     params.page  = param.page;
-		// 	params.limit  = param.rows; 	 	 		
-		// 	$.ajax({
-		// 		url: ipAndPost+'',
-		// 		type:"get",
-		// 		//请求的媒体类型
-		// 		contentType: "application/json;charset=UTF-8",
-		// 		data : params,
-		// 		headers: {
-		// 			'token':'1'
-		// 		},
-		// 		success: function(obj) {
-		// 			var data = {
-		// 				rows:obj.data.list,
-		// 				total:obj.data.total
-		// 			}
-        //             success(data);
-		// 		},
-		// 		error : function(e){
-		// 			error(e)
-		// 		}
-		// 	})
-		// }
+        loader:function(param, success, error){
+			var params = {}; //声明一个对象
+            params.page  = param.page;
+			params.limit  = param.rows; 	 	 		
+			$.ajax({
+				url: '/web/arrival/getArrivalOrderDetailList',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':sessionStorage.getItem('token'),
+					'supplierCode':'1'
+				},
+				success: function(obj) {
+					var data = {
+						rows:obj.data.list,
+						total:obj.data.total
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		}
 	});
 }
 function loadDeliveryReleaseOperationData(){

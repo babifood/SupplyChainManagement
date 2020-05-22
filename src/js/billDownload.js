@@ -66,11 +66,11 @@ function loadBillDownloadData(){
 			},
 			{  
                 title:'其他附件',  
-                field:'otherFile',  
+                field:'otherFile1',  
                 align:'center',
 				width:20, 
 				formatter:function(value,row,index){
-					if (value){
+					if (row.otherFile1 || row.otherFile2 || row.otherFile3){
 						return '有';
 					} else {
 						return '无';
@@ -86,7 +86,7 @@ function loadBillDownloadData(){
 			params.supplierName = param.supplierName;	// 	供应商名称 	否 	否 		
 			params.stateOrderId = param.stateOrderId;	// 	账单id 	否 	否		
 			$.ajax({
-				url:'/web/stateFile/getStateFileInfoList',
+				url:  '/web/stateFile/getStateFileInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -107,9 +107,15 @@ function loadBillDownloadData(){
 			})
 		},
 		onClickRow:function(rowIndex, rowData){
-			loadAccountData();
-			loadInvoiceData();
-			loadRestsData();
+			if(rowData.billFile){
+				loadAccountData(rowData.statesId);
+			}
+			if(rowData.invoiceFile){
+				loadInvoiceData(rowData.statesId);
+			}
+			if(rowData.otherFile1 || rowData.otherFile2 || rowData.otherFile3){
+				loadRestsData(rowData.statesId);
+			}
 		}
 	});
 }
@@ -133,32 +139,61 @@ function reset(){
 	$("#accountCode").textbox('setValue','');
 }
 //加载账单附件
-function loadAccountData(){
+function loadAccountData(statesId){
 	$("#account_dg").datagrid({
-		url:"",
 		fit:true,
 		fitColumns:true,
 		border:false,
 		singleSelect:true,
 		columns:[[
 			{
-				field:"FileName",
+				field:"fileId",
+				hidden:"true",
+			},
+			{
+				field:"name",
 				title:"文件名称",
 				width:20,
 			},
 			{
-				field:"FileCreateDateTime",
+				field:"createTime",
 				title:"上传时间",
 				width:20,
 			}
 		]],
 		onDblClickRow:function(rowIndex,rowData){
 			// onDblClickRowFileDownload(rowIndex,rowData);
-		}
+			var url = '/web/file/fileDownload?fileId='+rowData.fileId;
+			downLoadByUrl(url,rowData.name)
+		},
+		loader:function(param, success, error){
+			var params = {
+				orderId : statesId
+			}; //声明一个	
+			$.ajax({
+				url: '/web/file/findFilesOfOrder',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':sessionStorage.getItem('token')
+				},
+				success: function(obj) {
+                    var data = {
+						rows:obj.data.stateOrder.stateBill,
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
 	})
 };
 //加载发票附件
-function loadInvoiceData(){
+function loadInvoiceData(statesId){
 	$("#invoice_dg").datagrid({
 		url:"",
 		fit:true,
@@ -167,23 +202,53 @@ function loadInvoiceData(){
 		singleSelect:true,
 		columns:[[
 			{
-				field:"FileName",
+				field:"fileId",
+				hidden:"true",
+			},
+			{
+				field:"name",
 				title:"文件名称",
 				width:20,
 			},
 			{
-				field:"FileCreateDateTime",
+				field:"createTime",
 				title:"上传时间",
 				width:20,
 			}
 		]],
 		onDblClickRow:function(rowIndex,rowData){
 			// onDblClickRowFileDownload(rowIndex,rowData);
-		}
+			var url = '/web/file/fileDownload?fileId='+rowData.fileId;
+			downLoadByUrl(url,rowData.name)
+		},
+		loader:function(param, success, error){
+			var params = {
+				orderId : statesId
+			}; //声明一个	
+			$.ajax({
+				url: '/web/file/findFilesOfOrder',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':sessionStorage.getItem('token')
+				},
+				success: function(obj) {
+                    var data = {
+						rows:obj.data.stateOrder.stateInvoice,
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
 	})
 };
 //加载其他附件
-function loadRestsData(){
+function loadRestsData(statesId){
 	$("#rests_dg").datagrid({
 		url:"",
 		fit:true,
@@ -192,18 +257,89 @@ function loadRestsData(){
 		singleSelect:true,
 		columns:[[
 			{
-				field:"FileName",
+				field:"fileId",
+				hidden:"true",
+			},
+			{
+				field:"name",
 				title:"文件名称",
 				width:20,
 			},
 			{
-				field:"FileCreateDateTime",
+				field:"createTime",
 				title:"上传时间",
 				width:20,
 			}
 		]],
 		onDblClickRow:function(rowIndex,rowData){
 			// onDblClickRowFileDownload(rowIndex,rowData);
-		}
+			var url = '/web/file/fileDownload?fileId='+rowData.fileId;
+			downLoadByUrl(url,rowData.name)
+		},
+		loader:function(param, success, error){
+			var params = {
+				orderId : statesId
+			}; //声明一个	
+			$.ajax({
+				url: '/web/file/findFilesOfOrder',
+				type:"get",
+				//请求的媒体类型
+				contentType: "application/json;charset=UTF-8",
+				data : params,
+				headers: {
+					'token':sessionStorage.getItem('token')
+				},
+				success: function(obj) {
+                    var data = {
+						rows: fileConvertData(obj.data.stateOrder)
+					}
+                    success(data);
+				},
+				error : function(e){
+					error(e)
+				}
+			})
+		},
 	})
 };
+//其他附件合并展示
+function fileConvertData(fileObj){
+	var fileData = []
+	eachFiles(fileData,fileObj.stateOther1);
+	eachFiles(fileData,fileObj.stateOther2);
+	eachFiles(fileData,fileObj.stateOther3);
+	return fileData;
+}
+function eachFiles(fileData,files){
+	if(files == undefined) return;
+	for(var i = 0;i < files.length;i++){
+		fileData.push(files[i]);
+	}
+}
+function downLoadByUrl(url,fileName){
+	var xhr = new XMLHttpRequest();
+	//GET请求,请求路径url,async(是否异步)
+	xhr.open('GET', url, true);
+	//设置请求头参数的方式,如果没有可忽略此行代码
+	xhr.setRequestHeader("token", sessionStorage.getItem('token'));
+	//设置响应类型为 blob
+	xhr.responseType = 'blob';
+	//关键部分
+	xhr.onload = function (e) {
+		//如果请求执行成功
+		if (this.status == 200) {
+			var blob = this.response;
+			var a = document.createElement('a');
+			blob.type = "application/octet-stream";
+			//创键临时url对象
+			var url = URL.createObjectURL(blob);
+			a.href = url;
+			a.download= fileName;
+			a.click();
+			//释放之前创建的URL对象
+			window.URL.revokeObjectURL(url);
+		}
+	};
+	//发送请求
+	xhr.send();
+}

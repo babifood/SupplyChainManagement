@@ -1,5 +1,5 @@
 var editIndex = undefined;
-var ip = 'http://10.4.1.27:8382';
+// var ip = 'http://10.4.1.27:8382';
 $(function(){
 	//加载菜单设置列表
 	loadTabs();
@@ -80,7 +80,7 @@ function loadCatalogue(){
 				type:1
 			}; //声明一个对象
 			$.ajax({
-				url:ip+'/auth/menu/findMenuList',
+				url:'/auth/menu/findMenuList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -199,7 +199,7 @@ function loadMenu(){
 				type:2
 			}; //声明一个对象
 			$.ajax({
-				url:ip + '/auth/menu/findMenuList',
+				url:'/auth/menu/findMenuList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -255,7 +255,7 @@ function loadMenuCatalogue(){
 				type:1
 			}; //声明一个对象
 			$.ajax({
-				url:ip+'/auth/menu/findMenuList',
+				url:'/auth/menu/findMenuList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -331,7 +331,7 @@ function loadButtonMenu(){
 				type:2
 			}; //声明一个对象
 			$.ajax({
-				url:ip+'/auth/menu/findMenuList',
+				url:'/auth/menu/findMenuList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -425,7 +425,7 @@ function loadButton(){
 				type:3
 			}; //声明一个对象
 			$.ajax({
-				url:ip+'/auth/menu/findMenuList',
+				url:'/auth/menu/findMenuList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -486,7 +486,7 @@ function removeit(dgId){
 	$.messager.confirm("提示","确定要删除此数据？",function(r){
 		if(r){
 			$.ajax({
-				url:ip+'/auth/menu/removeMenuInfo',
+				url:'/auth/menu/removeMenuInfo',
 				type:"post",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -561,10 +561,10 @@ function accept(dgId){
 			data.url = rowData.url;
 		}
 		if(rowData.menuId==undefined||rowData.menuId==''||rowData.menuId==null){
-			url = ip +'/auth/menu/saveMenuInfo';
+			url = '/auth/menu/saveMenuInfo';
 			msg = '保存成功!';
 		}else{
-			url = ip +'/auth/menu/updateMenuInfo';
+			url = '/auth/menu/updateMenuInfo';
 			msg = '修改成功!';
 			data.menuId=rowData.menuId;
 		}

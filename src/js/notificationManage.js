@@ -1,4 +1,5 @@
 var ipAndPost = 'http://10.4.1.27:8582';
+var filesObj;
 //当前时间戳
 var timestamp;
 //初始化
@@ -7,7 +8,6 @@ $(function(){
 });
 function loadNotificationManageData(){
 	$("#notificationManage_dg").datagrid({
-		url:"",
         loadMsg:"数据加载中......",
 		fit:true,
 		fitColumns:true,
@@ -89,7 +89,7 @@ function loadNotificationManageData(){
 			params.startDate = '';	//开始日期yyyy-MM-dd 	
 			params.endDate = '';//结束日期yyyy-MM-dd
 			$.ajax({
-				url:ipAndPost+'/web/message/findMessageInfoList',
+				url:'/web/message/findMessageInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -117,10 +117,10 @@ function loadNotificationManageData(){
 	});
 }
 //通知类型下来选择生成编号
-function notificationTypeOnSelect(rec){
-	// timestamp==undefined?timestamp = Date.parse(new Date()):timestamp;
-	$('#notificationCode').textbox('setValue',rec.value);
-}
+// function notificationTypeOnSelect(rec){
+// 	// timestamp==undefined?timestamp = Date.parse(new Date()):timestamp;
+// 	$('#notificationCode').textbox('setValue',rec.value);
+// }
 //发给所有供应商勾选事件
 function checkboxOnChange(checked){
 	if(checked){
@@ -130,7 +130,7 @@ function checkboxOnChange(checked){
 	}
 }
 //加载供应商信息
-function loadSupplierData(){
+function loadSupplierData(messageId){
     $("#supplier_dg").datagrid({
         loadMsg:"数据加载中......",
 		fit:true,
@@ -171,8 +171,8 @@ function loadSupplierData(){
 			var params = {}; //声明一个对象
             params.page  = param.page;
 			params.limit  = param.rows;
-			params.messageId = param.messageId;	//消息code 	
-			if(param.messageId==='-1'){
+			params.messageId = messageId;	//消息code 	
+			if(messageId==='-1'){
 				var data = {
 					rows:[],
 					total:0
@@ -180,7 +180,7 @@ function loadSupplierData(){
 				success(data);
 			}else{
 				$.ajax({
-					url:ipAndPost+'/web/provider/findProvidersOfMessage',
+					url:'/web/provider/findProvidersOfMessage',
 					type:"get",
 					//请求的媒体类型
 					contentType: "application/json;charset=UTF-8",
@@ -265,7 +265,7 @@ function loadSupplierDialogGridData(){
 			params.providerCode = '';//供应商编码 	否 	否 		
 			params.providerName = param.providerName;//供应商名称 	 	 		
 			$.ajax({
-				url:ipAndPost+'/web/provider/findProviderInfoList',
+				url:'/web/provider/findProviderInfoList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -337,22 +337,23 @@ function supplier_dialog_confirm(){
 //新增公告消息
 function append(){
 	timestamp = Date.parse(new Date())
+	// $("#filelist").css("display","none");//隐藏div
 	$('#notificationManage_form').form('clear');
 	$("#notificationManage_window").window("open").window("setTitle","新增通知");
-	$('#supplier_dg').datagrid({
-		queryParams: {
-			messageId: '-1'
-		}
-	 });
-    loadSupplierData();
+	$("#save_linkbutton").linkbutton('enable');
+	$('#notificationFiles').filebox({prompt:'选择文件'});
+    loadSupplierData('-1');
 }
 //保存公告消息
 function saveMassage(){
 	//调用文件上传接口
+	var files = $('#notificationFiles').filebox("files");
 	const formData = new FormData();  // 声明一个FormData对象
-	formData.append("files", $('#notificationFiles').filebox("files"));
+	for(var i = 0;i<files.length;i++){
+		formData.append("files",files[i]);
+	}
     $.ajax({
-		url:'http://10.4.1.27:8482/supplier/file/multiFileUpload',
+		url:'/web/file/multiFileUpload',
 		type:"post",
 		//请求的媒体类型
 		contentType: false,
@@ -368,7 +369,7 @@ function saveMassage(){
 		},
 		success: function(obj) {
 			$.messager.progress('close');
-			if(obj.cede== "200"){
+			if(obj.code== "200"){
 				//文件上传成功后调用公告消息保存方法
 				saveMassageInfo();
 			}else{
@@ -388,6 +389,16 @@ function saveMassage(){
 //保存消息详细信息
 function saveMassageInfo(){
 	var formdata = $('#notificationManage_form').serializeArray();
+	var supplierArray = []
+	var supplierRows = $('#supplier_dg').datagrid('getRows');
+	for(var i = 0;i<supplierRows.length;i++){
+		var supplier ={
+			supplierId : supplierRows[i].supplierId,
+			supplierCode : supplierRows[i].lifnr,
+			supplierName : supplierRows[i].providerName
+		}
+		supplierArray.push(supplier);
+	}
 	var json={};
 	for(var i=0;i<formdata.length;i++){
 		json[formdata[i]['name']]=formdata[i]['value'];
@@ -402,34 +413,53 @@ function saveMassageInfo(){
 		}
 		fileValues.push(fileitem);
 	}
-	var supplierRows = $('#supplier_dg').datagrid('getRows');
 	var data = {
-		allProvider : json.check==undefined||formdata.check==null||formdata.check==''?false:true,	// 	所有供应商 	否 	否 		false
+		allProvider : json.check=="true"?true:false,	// 	所有供应商 	否 	否 		false
 		content : json.notificationContext,	// 	消息内容 	是 	否 		
 		files : fileValues,	 	//消息文件列表 	否 	否 	files:[{fileId：消息id}] 	
-		messageCode : json.notificationCode,	// 	消息code 	是 	否 		
+		messageCode : json.notificationType,	// 	消息code 	是 	否 		
 		messageName : json.notificationType,	// 	消息名称 	是 	否 		
-		providers : supplierRows,	// 	供应商列表 	否 	否 	"providers": [ { "supplierCode": "1", "supplierId": "1" } ] 	
+		providers : supplierArray,	// 	供应商列表 	否 	否 	"providers": [ { "supplierCode": "1", "supplierId": "1" } ] 	
 		title : json.notificationTitle	// 	消息标题 	是
 	}
+	if(supplierRows.length <= 0 && data.allProvider == false){
+		$.messager.alert('提示消息','您还没有指定消息推送的供应商哦！','info');
+		return
+	}
+	var url,msg;
+	if(json.notificationCode==''){
+		url = '/web/message/saveMessageInfo';
+		msg = '消息保存成功';
+	}else{
+		url = '/web/message/updateMessageInfo';
+		msg = '消息更新成功';
+		// if(data.files.length)
+		data.messageId = json.notificationCode;
+		if(data.files.length<=0){
+			data.files = filesObj;
+		}
+	}
 	$.ajax({
-		url:ipAndPost+'/web/message/saveMessageInfo',
+		url:url,
 		type:"post",
 		//请求的媒体类型
 		contentType: "application/json;charset=UTF-8",
 		data : JSON.stringify(data),
 		headers: {
 			'token':sessionStorage.getItem('token'),
-			'userName':'1'
+			'userName':'1',
+			'userId':'1'
 		},
 		success: function(obj) {
 			if(obj.code == "200"){
 				$.messager.show({
 					title:'消息提醒',
-					msg:'消息保存成功!',
+					msg:msg,
 					timeout:3000,
 					showType:'slide'
 				});
+				$('#notificationManage_window').window('close');
+				$('#notificationManage_dg').datagrid('reload',{});
 			}else{
 				$.messager.show({
 					title:'消息提醒',
@@ -450,17 +480,14 @@ function removeit(){
 	var rowData = dg.datagrid('getSelected');
 	var index = dg.datagrid("getRowIndex",rowData);
 	if(index>=0){
-		var data = {
-			messageId:rowData.notifyId
-		}
 		$.messager.confirm("提示","确定要删除此数据？",function(r){
 			if(r){
 				$.ajax({
-					url:ipAndPost+'/web/message/removeMessageInfo',
+					url:'/web/message/removeMessageInfo',
 					type:"post",
 					//请求的媒体类型
 					contentType: "application/json;charset=UTF-8",
-					data : JSON.stringify(data),
+					data : rowData.notifyId,
 					headers: {
 						'token':sessionStorage.getItem('token')
 					},
@@ -501,17 +528,14 @@ function send(){
 	var rowData = dg.datagrid('getSelected');
 	var index = dg.datagrid("getRowIndex",rowData);
 	if(index>=0){
-		var data = {
-			messageId:rowData.notifyId
-		}
 		$.messager.confirm("提示","确定要发布此数据？",function(r){
 			if(r){
 				$.ajax({
-					url:ipAndPost+'/web/message/publishMessage',
+					url:'/web/message/publishMessage',
 					type:"post",
 					//请求的媒体类型
 					contentType: "application/json;charset=UTF-8",
-					data : JSON.stringify(data),
+					data : rowData.notifyId,
 					headers: {
 						'token':sessionStorage.getItem('token'),
 						'userName':'1'
@@ -554,19 +578,59 @@ function update(){
 	if(index>=0){
 		$('#notificationManage_form').form('clear');
 		$("#notificationManage_window").window("open").window("setTitle","修改通知");
-		$('#supplier_dg').datagrid({
-			queryParams: {
-				messageId: rowData.notifyId
-			}
-		});
-		loadSupplierData();
+		// $("#filelist").css("display","block");//显示div
+		fundMessageInfo(rowData.notifyId);
+		loadSupplierData(rowData.notifyId);
+		$("#save_linkbutton").linkbutton('enable');
 	}else{
 		$.messager.alert('提示消息','请选择要修改的数据！','info');
-	}
+	}   
 }
-//附件选择框值改变事件
-function fileChange(){
-	alert("fileChange");
-
-	
+//查询消息详情
+function fundMessageInfo(notifyId){
+	$.ajax({
+		url:'/web/message/findMessageInfo',
+		type:"get",
+		//请求的媒体类型
+		contentType: "application/json;charset=UTF-8",
+		data : {messageId:notifyId},
+		headers: {
+			'token':sessionStorage.getItem('token')
+		},
+		success: function(obj) {
+			console.log(obj);
+			$('#notificationCode').textbox('setValue',obj.data.notifyId);
+			$('#notificationType').combobox('setValue',obj.data.messageName);
+			$('#notificationTitle').textbox('setValue',obj.data.title);
+			$('#notificationContext').textbox('setValue',obj.data.content);
+			setFilesValues(obj.data.filesVo)
+			filesObj = obj.data.filesVo;
+		},
+		error : function(e){
+			console.log(e);
+		}
+	})
+}
+function setFilesValues(files){
+	var filesName = '';
+	for(var i = 0;i < files.length; i++){
+		filesName+=files[i].fileName+';'
+	}
+	$('#notificationFiles').filebox({prompt:filesName});
+}
+//查看消息
+function look(){
+	var dg = $('#notificationManage_dg');
+	var rowData = dg.datagrid('getSelected');
+	var index = dg.datagrid("getRowIndex",rowData);
+	if(index>=0){
+		$('#notificationManage_form').form('clear');
+		$("#notificationManage_window").window("open").window("setTitle","查看消息");
+		// $("#filelist").css("display","block");//显示div
+		fundMessageInfo(rowData.notifyId);
+		loadSupplierData(rowData.notifyId);
+		$("#save_linkbutton").linkbutton('disable');
+	}else{
+		$.messager.alert('提示消息','请选择要查看的数据！','info');
+	}
 }

@@ -141,10 +141,10 @@ function loadUser(){
 						rownumbers:true,
 						fitColumns: true,
 						required:true,
-                        columns: [[
+                        columns: [
                             {field:'companyCode',title:'公司代码',width:250},
                             {field:'companyName',title:'公司名称',width:250},
-                        ]],
+                        ],
 						onSelect:function (index, row){
 							var ed_nub = $('#user_dg').datagrid('getEditor', {index:editIndex,field:'companyCode'});
 							$(ed_nub.target).val(row.companyCode); 

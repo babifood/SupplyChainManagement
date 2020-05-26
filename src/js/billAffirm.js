@@ -1,5 +1,6 @@
 var ipAndPost = 'http://10.4.1.27:8582'
 var mainYearMonth;
+var loadStatus = false;
 //初始化
 $(function(){
 	setDateToMonth('begMonth');
@@ -75,13 +76,16 @@ function loadBillAffirmData(){
                 align:'center',
                 width:50,  
 			},
-            {  
-                title:'扣款清单',  
-                field:'8',  
-                align:'center',
-                width:50,  
-			}		
+            {field:'operate',title:'查看附件清单',align:'center',width:50,
+				formatter:function(value, row, index){
+					var str = '<a href="#" name="opera" class="easyui-linkbutton" onclick="lock('+row.stateId+')"></a>';
+					return str;
+				}
+			}
 		]],
+		onLoadSuccess:function(data){  
+            $("a[name='opera']").linkbutton({text:'清单查看',plain:true,iconCls:'icon-find'});  
+    	},
 		queryParams: {
 			begDate: $('#begMonth').datebox('getValue').replace("-",''),
 			endDate: $('#endMonth').datebox('getValue').replace("-",''),
@@ -89,7 +93,17 @@ function loadBillAffirmData(){
 		},
 		onClickRow:function(rowIndex, rowData){
 			mainYearMonth =rowData.year+rowData.month;
-			loadProductData(rowData.stateId);
+			loadProductData(rowData.statesId);
+			//清空产品明细详情表数据
+			if(loadStatus){
+				var item = $('#productInfo_dg').datagrid('getRows');
+				if (item) {
+					for (var i = item.length - 1; i >= 0; i--) {
+						var index = $('#productInfo_dg').datagrid('getRowIndex', item[i]);
+						$('#productInfo_dg').datagrid('deleteRow', index);
+					}
+				}
+			}
 		},
 		loader:function(param, success, error){
 			var params = {}; //声明一个
@@ -123,7 +137,7 @@ function loadBillAffirmData(){
 	});
 }
 //产品物料列表
-function loadProductData(stateId){
+function loadProductData(statesId){
 	$("#product_dg").datagrid({
 		loadMsg:"数据加载中......",
 		fit:true,
@@ -138,7 +152,7 @@ function loadProductData(stateId){
 		rownumbers:true,
         columns:[[
 			{
-				field:"stateId",
+				field:"statesId",
 				hidden:"true",
 			},
 			{  
@@ -173,14 +187,14 @@ function loadProductData(stateId){
             }
 		]],
 		onClickRow:function(rowIndex, rowData){
-			loadProductInfoData(rowData.stateId,rowData.matterCode);
+			loadProductInfoData(rowData.statesId,rowData.matterCode);
 		},
 		loader:function(param, success, error){
 			var params = {}; //声明一个
 			params.page  = param.page;
 			params.limit  = param.rows;
 			params.yearMonth = mainYearMonth;
-			params.stateOrderId = stateId;
+			params.statesId = statesId;
 			$.ajax({
 				url: '/web/state/getStateOrderMatterList',
 				type:"get",
@@ -205,7 +219,8 @@ function loadProductData(stateId){
 	});
 }
 //产品物料列表
-function loadProductInfoData(stateId,matterId){
+function loadProductInfoData(statesId,matterId){
+	loadStatus = true;
 	$("#productInfo_dg").datagrid({
 		loadMsg:"数据加载中......",
 		fit:true,
@@ -278,7 +293,7 @@ function loadProductInfoData(stateId,matterId){
 			var params = {}; //声明一个
 			params.page  = param.page;
 			params.limit  = param.rows;
-			params.stateOrderId = stateId;	 	//对账单id 	是 	否 		
+			params.statesId = statesId;	 	//对账单id 	是 	否 		
 			params.matterId = matterId;	 	//物料编码 	是 	否 		
 			params.yearMonth = mainYearMonth;
 			$.ajax({
@@ -318,7 +333,7 @@ function searchFunction(){
 function saveFunction(){
 	var rowData =$('#billAffirm_dg').datagrid('getSelected');
 	var data = {
-		orderStateId:rowData.statesId
+		statesId:rowData.statesId
 	}
 	$.ajax({
 		url:'/web/state/updateStatInfo',
@@ -355,7 +370,7 @@ function saveFunction(){
 function exportFunction(){
 	var rowData =$('#billAffirm_dg').datagrid('getSelected');
 	var token = sessionStorage.getItem('token');
-	var url = "/web/file/downloadAccountBill?stateOrderId="+rowData.statesId+"&fileType=pdf";
+	var url = "/web/file/downloadAccountBill?statesId="+rowData.statesId+"&fileType=pdf";
 	var filename = '账单下载';
 	downLoadByUrl(url,token,filename)
 }
@@ -418,4 +433,8 @@ function formatDate(time,format='YY-MM-DD hh:mm:ss'){
 						.replace(/ss/g,preArr[sec]||sec);
 
 	return newTime;			
+}
+//查看附件清单
+function lock(stetaId){
+	alert(stetaId)
 }

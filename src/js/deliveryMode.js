@@ -93,7 +93,7 @@ function endEditing(dgId){
 		return false;
 	}
 }
-function onClickRow(index,dgId){
+function onDblClickRow(index,dgId){
 	if (editIndex != index){
 		if (endEditing(dgId)){
 			$('#'+dgId).datagrid('selectRow', index)
@@ -168,7 +168,7 @@ function accept(dgId){
 			shippingCode: rowData.shippingCode,
 			shippingName: rowData.shippingName
 		}
-		if(rowData.companyId==undefined||rowData.companyId==''||rowData.companyId==null){
+		if(rowData.shippingId==undefined||rowData.shippingId==''||rowData.shippingId==null){
 			url ='/web/shippingMethod/saveShippingMethodInfo';
 			msg = '保存成功!';
 		}else{

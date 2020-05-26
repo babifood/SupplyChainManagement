@@ -151,7 +151,7 @@ function loadBillAttachmentUploadData(){
 			params.startYearmonth = param.begDate;	
 			params.endYearmonth = param.endDate;	
 			$.ajax({
-				url:  '/web/stateFile/getStateFileList',
+				url: '/web/stateFile/getStateFileList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -236,17 +236,17 @@ function saveFiles(){
 function saveFilesInfo(){
 	var data = [];
 	var rowData =$('#billAttachmentUpload_dg').datagrid('getSelected');
-	var orderId = rowData.statesId;
+	var statesId = rowData.statesId;
 	var billFiles = $('#billFiles').filebox("files");
 	var invoiceFiles = $('#invoiceFiles').filebox("files");
 	var otherFiles1 = $('#otherFiles1').filebox("files");
 	var otherFiles2 = $('#otherFiles2').filebox("files");
 	var otherFiles3 = $('#otherFiles3').filebox("files");
-	fileSaveValueConvert(data,billFiles,orderId,'stateBill');
-	fileSaveValueConvert(data,invoiceFiles,orderId,'stateInvoice');
-	fileSaveValueConvert(data,otherFiles1,orderId,'stateOther1');
-	fileSaveValueConvert(data,otherFiles2,orderId,'stateOther2');
-	fileSaveValueConvert(data,otherFiles3,orderId,'stateOther3');
+	fileSaveValueConvert(data,billFiles,statesId,'stateBill');
+	fileSaveValueConvert(data,invoiceFiles,statesId,'stateInvoice');
+	fileSaveValueConvert(data,otherFiles1,statesId,'stateOther1');
+	fileSaveValueConvert(data,otherFiles2,statesId,'stateOther2');
+	fileSaveValueConvert(data,otherFiles3,statesId,'stateOther3');
 	$.ajax({
 		url:  '/web/file/saveFileInfo',
 		type:"post",
@@ -267,7 +267,13 @@ function saveFilesInfo(){
 					showType:'slide'
 				});
 				$('#files_dog').dialog('close');
-				$('#billAttachmentUpload_dg').datagrid('reload',{});
+				$('#billAttachmentUpload_dg').datagrid({
+					queryParams: {
+						begDate: $('#begMonth').datebox('getValue').replace("-",''),
+						endDate: $('#endMonth').datebox('getValue').replace("-",''),
+					}
+				});
+				// $('#billAttachmentUpload_dg').datagrid('reload',{});
 			}else{
 				$.messager.show({
 					title:'消息提醒',
@@ -287,10 +293,10 @@ function fileValueConvert(formData,filesVal){
 		formData.append("files", filesVal[i]);
 	}
 }
-function fileSaveValueConvert(dataArr,filesVal,orderId,fileType){
+function fileSaveValueConvert(dataArr,filesVal,statesId,fileType){
 	for(var i = 0;i<filesVal.length;i++){
 		var file ={
-			orderId:orderId,
+			orderId:statesId,
 			fileCode:'stateOrder',
 			fileType:fileType,
 			fileName:filesVal[i].name,

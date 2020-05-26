@@ -1,6 +1,8 @@
 // var ipAndPost = 'http://10.4.1.27:8582';
 //初始化
 $(function(){
+	setDateToMonth('begMonth');
+	setDateToMonth('endMonth');
 	loadAccountStatusQueryData();
 });
 function loadAccountStatusQueryData(){
@@ -245,8 +247,8 @@ function loadAccountStatusQueryDetail(){
 }
 //查询
 function searchFunction(){
-	var begDate = $("#begDate").datebox('getValue');
-	var endDate = $("#endDate").datebox('getValue');
+	var begDate = $('#begMonth').datebox('getValue').replace("-",'');
+	var endDate = $('#endMonth').datebox('getValue').replace("-",'');
 	var supplier = $("#supplier").textbox('getValue');
 	var accountCode = $("#accountCode").textbox('getValue');
 	$('#accountStatusQuery_dg').datagrid({
@@ -260,8 +262,8 @@ function searchFunction(){
 }
 //重置
 function reset(){
-	$("#begDate").datebox('setValue',"");
-	$("#endDate").datebox('setValue',"");
+	$("#begMonth").datebox('setValue',"");
+	$("#endMonth").datebox('setValue',"");
 	$("#supplier").textbox('setValue',"");
 	$("#accountCode").textbox('setValue',"");
 	

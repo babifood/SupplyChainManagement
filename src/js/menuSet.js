@@ -540,7 +540,7 @@ function accept(dgId){
 			data.icon = rowData.icon;
 			data.name = rowData.menuName;
 			data.parentId = 0;//目录默认为0
-			data.status = rowData.status==true?1:2;//状态:1生效，2失效
+			data.status = rowData.status=="true"?1:2;//状态:1生效，2失效
 			data.type = 1;//类型，1目录，2菜单项，3按钮
 			data.url = '';
 		}else if(dgId =='menu_dg'){//菜单
@@ -548,15 +548,15 @@ function accept(dgId){
 			data.icon = rowData.icon;
 			data.name = rowData.menuName;
 			data.parentId = $('#menu_catalogue_dg').datagrid('getSelected').menuId;//目录默认为0
-			data.status = rowData.status==true?1:2;;//状态:1生效，2失效
+			data.status = rowData.status=="true"?1:2;;//状态:1生效，2失效
 			data.type = 2;//类型，1目录，2菜单项，3按钮
 			data.url = rowData.url;
 		}else if(dgId =='button_dg'){//按钮
 			data.channel = 2;//渠道1：手机，2：pc
 			data.icon = rowData.icon;
 			data.name = rowData.menuName;
-			data.parentId = 0;//目录默认为0
-			data.status = rowData.status==true?1:2;;//状态:1生效，2失效
+			data.parentId = $('#button_menu_dg').datagrid('getSelected').menuId;;//目录默认为0
+			data.status = rowData.status=="true"?1:2;;//状态:1生效，2失效
 			data.type = 3;//类型，1目录，2菜单项，3按钮
 			data.url = rowData.url;
 		}

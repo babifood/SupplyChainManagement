@@ -4,9 +4,9 @@ function loginSubmit(){
 	if(isValid){
         var userName = $('#userName').textbox('getValue');
         var password = $('#password').passwordbox('getValue');
-        var accountType = $('#accountType').combobox('getValue');
+        // var accountType = $('#accountType').combobox('getValue');
         var data ={
-            channel: accountType,
+            channel: '1',
             mobile: userName,
             password: password
         }

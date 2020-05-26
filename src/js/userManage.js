@@ -58,7 +58,8 @@ function loadRole(){
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':sessionStorage.getItem('token')
+					'token':sessionStorage.getItem('token'),
+					'operatorId':'1'
 				},
 				success: function(obj) {
                     var data = {
@@ -129,30 +130,29 @@ function loadUser(){
 				editor:{
 					type:'combogrid',
 					options:{
-                        panelWidth: 500,
-                        idField: 'companyName',
+                     	panelWidth: 500,
+                     	idField: 'companyName',
 						textField: 'companyName',
 						striped:true,
 						border:false,
-						pagination:true,
-						pageSize : 10,
-						pageList : [10, 20, 30 ],
-						pageNumber:1,
+						// pagination:true,
+						// pageSize : 10,
+						// pageList : [10, 20, 30 ],
+						// pageNumber:1,
+						singleSelect:true,
 						rownumbers:true,
-						fitColumns: true,
-						required:true,
-                        columns: [
-                            {field:'companyCode',title:'公司代码',width:250},
-                            {field:'companyName',title:'公司名称',width:250},
-                        ],
+                        columns: [[
+							{field:'companyCode',title:'公司代码',width:200,},
+                            {field:'companyName',title:'公司名称',width:200,},
+						]],
 						onSelect:function (index, row){
 							var ed_nub = $('#user_dg').datagrid('getEditor', {index:editIndex,field:'companyCode'});
 							$(ed_nub.target).val(row.companyCode); 
 						},
 						loader:function(param, success, error){
 							var params = {}; //声明一个对象
-							params.page  = param.page;
-							params.limit  = param.rows;	
+							// params.page  = param.page;
+							// params.limit  = param.rows;	
 							$.ajax({
 								url: '/web/company/findCompanyInfoList',
 								type:"get",
@@ -261,7 +261,7 @@ function loadUser(){
 				contentType: "application/json;charset=UTF-8",
 				data : params,
 				headers: {
-					'token':sessionStorage.getItem('token')
+					'token':sessionStorage.getItem('token'),
 				},
 				success: function(obj) {
                     var data = {

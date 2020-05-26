@@ -199,17 +199,15 @@ function loadProductData(ordersId){
 function removeFunction(){
 	var rowData =$('#order_dg').datagrid('getSelected');
 	var index = $("#order_dg").datagrid("getRowIndex",rowData);
-
+	var ordersId = rowData.ordersId;
 	if(index>=0){
 		$.messager.confirm("提示","确定要删除此数据？",function(r){
 			if(r){
 				$.ajax({
 					url:'/web/confirm/removeConfirmOrder',
 					type:'post',
-					data:JSON.stringify({
-						ordersId:rowData.ordersId
-					}),
-					contentType:"application/x-www-form-urlencoded",
+					data:ordersId,
+					contentType: "application/json;charset=UTF-8",
 					headers: {
 						'token':sessionStorage.getItem('token'),
 						'userName' :'1',

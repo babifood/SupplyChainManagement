@@ -77,3 +77,22 @@ function filtrationJson(data,parentID){
     });
     return returnData;
 }
+//安全退出
+function loginOut(){
+    $.ajax({
+        url: '/auth/logout',
+        type:"post",
+        //请求的媒体类型
+        contentType: "application/json;charset=UTF-8",
+        headers: {
+            'token':sessionStorage.getItem('token')
+        },
+        success: function(obj) {
+            sessionStorage.removeItem('token')
+            window.location.href = '../src/index.html'
+        },
+        error : function(e){
+            error(e)
+        }
+    })
+}

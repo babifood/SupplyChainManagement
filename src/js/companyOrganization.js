@@ -102,8 +102,9 @@ function endEditing(dgId){
 function onDblClickRow(index,dgId){
 	if (editIndex != index){
 		if (endEditing(dgId)){
-			$('#'+dgId).datagrid('selectRow', index)
-					.datagrid('beginEdit', index);
+			$('#'+dgId).datagrid('selectRow', index).datagrid('beginEdit', index);
+			var companyCode = $('#'+dgId).datagrid('getEditor', { index: index, field: 'companyCode' });
+			$(companyCode.target).validatebox('disable');
 			editIndex = index;
 		} else {
 			$('#'+dgId).datagrid('selectRow', editIndex);
@@ -182,10 +183,10 @@ function accept(dgId){
 			description: rowData.description
 		}
 		if(rowData.companyId==undefined||rowData.companyId==''||rowData.companyId==null){
-			url ='/web/company/saveCompanyInfo';
+			url = '/web/company/saveCompanyInfo';
 			msg = '保存成功!';
 		}else{
-			url ='/web/company/updateCompanyInfo';
+			url = '/web/company/updateCompanyInfo';
 			msg = '修改成功!';
 			data.companyId=rowData.companyId;
 		}

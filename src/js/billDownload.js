@@ -7,7 +7,7 @@ function loadBillDownloadData(){
 	$("#billDownload_dg").datagrid({
 		// url:"",
 		// loadMsg:"数据加载中......",
-		data:[{supplierCode:'00001',supplierDesc:'供应商描述',month:'04',invoice:'是',account:'是',rests:'是'}],
+		// data:[{supplierCode:'00001',supplierDesc:'供应商描述',month:'04',invoice:'是',account:'是',rests:'是'}],
 		fit:true,
 		fitColumns:true,
 		striped:true,
@@ -107,15 +107,9 @@ function loadBillDownloadData(){
 			})
 		},
 		onClickRow:function(rowIndex, rowData){
-			if(rowData.billFile){
-				loadAccountData(rowData.statesId);
-			}
-			if(rowData.invoiceFile){
-				loadInvoiceData(rowData.statesId);
-			}
-			if(rowData.otherFile1 || rowData.otherFile2 || rowData.otherFile3){
-				loadRestsData(rowData.statesId);
-			}
+			loadAccountData(rowData.statesId);
+			loadInvoiceData(rowData.statesId);
+			loadRestsData(rowData.statesId);
 		}
 	});
 }

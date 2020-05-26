@@ -1,5 +1,6 @@
 var ipAndPost = 'http://10.4.1.27:8582';
 var filesObj;
+var saveType;
 //当前时间戳
 var timestamp;
 //初始化
@@ -336,6 +337,7 @@ function supplier_dialog_confirm(){
 }
 //新增公告消息
 function append(){
+	saveType = 'new';
 	timestamp = Date.parse(new Date())
 	// $("#filelist").css("display","none");//隐藏div
 	$('#notificationManage_form').form('clear');
@@ -348,43 +350,48 @@ function append(){
 function saveMassage(){
 	//调用文件上传接口
 	var files = $('#notificationFiles').filebox("files");
-	const formData = new FormData();  // 声明一个FormData对象
-	for(var i = 0;i<files.length;i++){
-		formData.append("files",files[i]);
-	}
-    $.ajax({
-		url:'/web/file/multiFileUpload',
-		type:"post",
-		//请求的媒体类型
-		contentType: false,
-        processData: false,
-		data : formData,
-		headers: {
-			'token':sessionStorage.getItem('token'),
-		},
-		beforeSend:function(){
-			$.messager.progress({
-				text:'保存中......',
-			});
-		},
-		success: function(obj) {
-			$.messager.progress('close');
-			if(obj.code== "200"){
-				//文件上传成功后调用公告消息保存方法
-				saveMassageInfo();
-			}else{
-				$.messager.show({
-					title:'消息提醒',
-					msg:obj.message,
-					timeout:3000,
-					showType:'slide'
-				});
-			}
-		},
-		error : function(e){
-			console.log(e);
+	if(files.length > 0){
+		const formData = new FormData();  // 声明一个FormData对象
+		for(var i = 0;i<files.length;i++){
+			formData.append("files",files[i]);
 		}
-	})
+		$.ajax({
+			url:'/web/file/multiFileUpload',
+			type:"post",
+			//请求的媒体类型
+			contentType: false,
+			processData: false,
+			data : formData,
+			headers: {
+				'token':sessionStorage.getItem('token'),
+			},
+			beforeSend:function(){
+				$.messager.progress({
+					text:'保存中......',
+				});
+			},
+			success: function(obj) {
+				$.messager.progress('close');
+				if(obj.code== "200"){
+					//文件上传成功后调用公告消息保存方法
+					saveMassageInfo();
+				}else{
+					$.messager.show({
+						title:'消息提醒',
+						msg:obj.message,
+						timeout:3000,
+						showType:'slide'
+					});
+				}
+			},
+			error : function(e){
+				console.log(e);
+			}
+		})
+	}else{
+		saveMassageInfo();
+	}
+	
 }
 //保存消息详细信息
 function saveMassageInfo(){
@@ -572,6 +579,7 @@ function send(){
 	}
 }
 function update(){
+	saveType = 'update';
 	var dg = $('#notificationManage_dg');
 	var rowData = dg.datagrid('getSelected');
 	var index = dg.datagrid("getRowIndex",rowData);

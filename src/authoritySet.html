@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <title>权限管理</title>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'west',title:'权限列表',collapsible:false,split:true" style="width:60%">
+        <table id="authority_dg"></table>  
+        <div id="authority_tbar" style="padding: 5px;">
+            <div style="margin-bottom: 5px;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append('authority_dg')">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit('authority_dg')">删除</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept('authority_dg')">确定</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject('authority_dg')">取消</a>
+            </div>
+            <div style="padding: 0 0 0 7px;color: #333;">
+	        	方法名称：<input type="text" class="easyui-textbox" id="methodName" name="methodName" style="width: 160px;"/>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="resetFunction()">重置</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchFunction()">查询</a>
+	        </div>
+        </div>
+    </div>
+    <div data-options="region:'center'">
+        <div class="easyui-panel" data-options="fit:true,footer:'#panel_buttons',border:false">
+            <div id="authority_tabs" data-options="fit:'true',border:'false'">   
+                <div title="电脑功能菜单" iconCls="">   
+                    <div style="padding: 0 0 0 20px;margin: 0px;">
+                        <ul id="pcMenu_ul"></ul>
+                    </div>    
+                </div>   
+                <div title="手机功能菜单" iconCls="">   
+                    <div style="padding: 0 0 0 20px;margin: 0px;">
+                        <ul id="phoneMenu_ul"></ul>
+                    </div>     
+                </div>    
+            </div>  
+        </div>
+        <div id="panel_buttons" style="text-align: center;">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-add" onclick="addDatas()" style="width: 90px;">添加数据</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveAuthority()" style="width: 90px;">保存</a>
+        </div>
+    </div>
+</body>
+    <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/authoritySet.js"></script>
+</html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
-    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>系统欢迎页</title>
 </head>
@@ -15,12 +15,12 @@
         <div id="logo">
             <span>中饮采购平台</span>
         </div>
-        <div id="userinfo">您好：系统管理员</div>
+        <div id="userinfo">您好：</div>
         <div id="outOrUpdate">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-out" plain="true" onclick="loginOut()"
-                style="color: blue;">安全退出</a> 
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-lock"
-                plain="true" onclick="" style="color: blue;">修改密码</a>
+                style="color: blue;">安全退出</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-lock" plain="true" onclick="updatePassword()"
+                style="color: blue;">修改密码</a>
         </div>
     </div>
     <div data-options="region:'south',split:false,noheader:true"
@@ -34,14 +34,50 @@
             <div title="起始页" style="display: block;" data-options="iconCls:'icon-house'"></div>
         </div>
     </div>
+    <!-- 修改密码dog开始 -->
+    <div id="updatePsd_dog" class="easyui-dialog" closed="true" data-options="modal: true"
+        buttons="#updatePsd_dog_buttons" style="width: 450px;">
+        <form id="updatePsd_form" method="post">
+            <div style="margin: 0; padding: 20px 50px;">
+                <div style="margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #ccc;">
+                    <span style="color: blue;">修改密码</span>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="psd_account">用户名称：&emsp;</label><input id="userName" name="userName" class="easyui-textbox" prompt="请输入用户名"
+                    style="width: 180px;height: 38px;" data-options="disabled:'true'"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="psd_original">绑定手机号：</label><input id="phoneNub" name="phoneNub" class="easyui-textbox" prompt="请输入手机号"
+                    style="width: 180px;height: 38px;" data-options="disabled:'true'"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="psd_new">原密码：&emsp;&emsp;</label><input id="originalPassword" name="originalPassword" class="easyui-passwordbox" prompt="请输入原密码"
+                    style="width: 180px;height: 38px;" data-options="required:true,missingMessage:'密码不能为空!',
+                    validType:'length[6,18]',invalidMessage :'密码不能少于6位且不能大于18位!'"/>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="psd_affirm">新密码：&emsp;&emsp;<input id="newPassword" name="newPassword" class="easyui-passwordbox" prompt="请输入新密码"
+                        style="width: 180px;height: 38px;" data-options="required:true,missingMessage:'密码不能为空!',
+                        validType:'length[6,18]',invalidMessage :'密码不能少于6位且不能大于18位!'"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="updatePsd_dog_buttons" style="text-align: center;">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateNewPsd()"
+            style="width: 90px;">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+            onclick="javascript:$('#updatePsd_dog').dialog('close')" style="width: 90px;">取消</a>
+    </div>
 </body>
 <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
 <style>
-    .panel-body{
-        overflow:hidden;
+    .panel-body {
+        overflow: hidden;
     }
 </style>
+
 </html>

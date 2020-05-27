@@ -109,9 +109,9 @@ function loadMenu(){
 		fitColumns:true,
 		striped:true,
 		border:false,
-		pagination:true,
-		pageSize : 10,
-		pageList : [10, 20, 30 ],
+		// pagination:true,
+		// pageSize : 10,
+		// pageList : [10, 20, 30 ],
 		pageNumber:1,
 		toolbar:"#menu_tbar",
 		singleSelect:true,
@@ -167,9 +167,9 @@ function loadMenu(){
                 width:50,
 				formatter:function(value){
                     if(value == 1){
-						return '手机端菜单'
-					}else if(value == 2){
 						return '电脑端菜单'
+					}else if(value == 2){
+						return '手机端菜单'
 					}
                 },
                 editor:{
@@ -177,7 +177,7 @@ function loadMenu(){
                     options:{
                         valueField:'channel',
                         textField:'channelName',
-                        data:[{'channel':1,'channelName':'手机端菜单'},{'channel':2,'channelName':'电脑端菜单'}],
+                        data:[{'channel':1,'channelName':'电脑端菜单'},{'channel':2,'channelName':'手机端菜单'}],
                         required:true
                     }
                 }		

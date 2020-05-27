@@ -2,7 +2,9 @@ $(function(){
 	$('#tabs').tabs({
 		fit:true,
 		border:false,
-	});
+    });
+    let userName = sessionStorage.getItem('userName');
+    $('#userinfo').html("您好:"+userName);
 	//加载导航菜单
     RightAccordion();
 });
@@ -89,10 +91,63 @@ function loginOut(){
         },
         success: function(obj) {
             sessionStorage.removeItem('token')
-            window.location.href = '../src/index.html'
+            // window.location.href = '../src/index.html'
         },
         error : function(e){
-            error(e)
+            console.log(e);
         }
     })
+}
+//打开修改密码窗口
+function updatePassword(){
+	$("#updatePsd_dog").dialog("open").dialog("center").dialog("setTitle","修改密码");
+    $("#updatePsd_form").form('clear');
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    $("#userName").textbox('setValue',userInfo.user.userName);
+    $("#phoneNub").textbox('setValue',userInfo.user.mobile);
+};
+//更新密码
+function updateNewPsd(){
+    var isValid = $("#updatePsd_form").form('validate');
+    if(!isValid) return;
+    let userName = $("#userName").textbox('getValue');
+    let phoneNub = $("#phoneNub").textbox('getValue');
+    let originalPassword = $("#originalPassword").textbox('getValue');
+    let newPassword = $("#newPassword").textbox('getValue');
+    var data = {
+        userName : userName,
+        mobile : phoneNub,	
+        password : originalPassword,	
+        newPassword : newPassword
+	}
+	$.ajax({
+		url: '/auth/user/updatePassword',
+		type:"post",
+		//请求的媒体类型
+		contentType: "application/json;charset=UTF-8",
+		data : JSON.stringify(data),
+		headers: {
+			'token':sessionStorage.getItem('token'),
+		},
+		success: function(obj) {
+			if(obj.code == "200"){
+				$.messager.show({
+					title:'消息提醒',
+					msg:'修改密码成功!',
+					timeout:3000,
+					showType:'slide'
+				});
+			}else{
+				$.messager.show({
+					title:'消息提醒',
+					msg:obj.message,
+					timeout:3000,
+					showType:'slide'
+				});
+			}
+		},
+		error : function(e){
+			console.log(e);
+		}
+	})
 }

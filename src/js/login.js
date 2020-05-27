@@ -27,6 +27,8 @@ function loginSubmit(){
             success: function(res,textStatus,request) {
                 $.messager.progress('close');
                 if(res.code == "200"){
+                    sessionStorage.setItem("userInfo",JSON.stringify(res.data));
+                    sessionStorage.setItem("userName",res.data.user.userName);
                     sessionStorage.setItem("token",request.getResponseHeader("token"));
                     window.location.href = '../src/index.html'
                 }else{

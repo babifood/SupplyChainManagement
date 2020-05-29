@@ -1,4 +1,5 @@
 var ipAndPost = 'http://10.4.1.27:8582';
+var fileId;
 $(function(){
 
 	$("#begDate").datebox('setValue',getNowFormatDate());
@@ -85,6 +86,7 @@ function loadInspectionSheetDownloadData(){
 		onClickRow:function(rowIndex, rowData){
 			if(rowData.fileStatus){
 				loadAccountData(rowData.deliveryId);
+				fileId = rowData.deliveryId;
 			}
 		},
 		queryParams: {

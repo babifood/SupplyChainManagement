@@ -60,7 +60,7 @@ function loadShippingListQueryData(){
             },
 			{  
                 title:'订单数',  
-                field:'orderNum',  
+                field:'matterNum',  
                 align:'center',
                 width:100,  
 			},
@@ -72,7 +72,7 @@ function loadShippingListQueryData(){
 			},
 			{  
                 title:'发货数量',  
-                field:'matterNum',  
+                field:'finishNum',  
                 align:'center',
                 width:100,  
 			},

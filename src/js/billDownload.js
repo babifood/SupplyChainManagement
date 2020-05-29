@@ -39,6 +39,12 @@ function loadBillDownloadData(){
               width:30,
 			},
 			{  
+				title:'对账单号',  
+				field:'stateOrderId',  
+				align:'center',
+				width:30,
+			  },
+			{  
                 title:'账单附件',  
                 field:'billFile',  
                 align:'center',

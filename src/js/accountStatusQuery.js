@@ -125,14 +125,14 @@ function loadAccountStatusQueryData(){
 //行双击事件
 function onDblClickRowFunction(rowIndex,rowData){
 	$("#accountStatusQueryDetail_window").window("open").window("setTitle","订单明细信息");
-	$('#accountStatusQuery_dg').datagrid({
-		queryParams: {
-			stateOrderId : rowData.orderId
-		}
-	 });
-    loadAccountStatusQueryDetail();
+	// $('#accountStatusQuery_dg').datagrid({
+	// 	queryParams: {
+	// 		stateOrderId : rowData.statesId
+	// 	}
+	//  });
+    loadAccountStatusQueryDetail(rowData.statesId);
 }
-function loadAccountStatusQueryDetail(){
+function loadAccountStatusQueryDetail(statesId){
     $("#accountStatusQueryDetail_dg").datagrid({
         loadMsg:"数据加载中......",
 		fit:true,
@@ -190,19 +190,22 @@ function loadAccountStatusQueryDetail(){
 			}
 		]],
 		loader:function(param, success, error){
+			var params = {}; //声明一个
+			// params.page  = param.page;
+			// params.limit  = param.rows;
+			params.statesId = statesId;
 			$.ajax({
 				url:'/web/state/getStateOrderDetailList',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
-				data : param,
+				data : params,
 				headers: {
 					'token':sessionStorage.getItem('token')
 				},
 				success: function(obj) {
                     var data = {
-						rows:obj.data.list,
-						total:obj.data.total
+						rows:obj.data
 					}
                     success(data);
 				},
@@ -210,39 +213,7 @@ function loadAccountStatusQueryDetail(){
 					error(e)
 				}
 			})
-		},
-        loadFilter:function(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){    // 判断数据是否是数组
-	            data = {
-	                total: data.length,
-	                rows: data
-	            }
-	        }
-	        var dg = $(this);
-	        var opts = dg.datagrid('options');
-	        var pager = dg.datagrid('getPager');
-	        pager.pagination({
-	            onSelectPage:function(pageNum, pageSize){
-	                opts.pageNumber = pageNum;
-	                opts.pageSize = pageSize;
-	                pager.pagination('refresh',{
-	                    pageNumber:pageNum,
-	                    pageSize:pageSize
-	                });
-	                dg.datagrid('loadData',data);
-	            },
-	        	onRefresh:function(){
-	        		dg.datagrid('reload');
-	        	}
-	        });
-	        if (!data.originalRows){
-	            data.originalRows = (data.rows);
-	        }
-	        var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-	        var end = start + parseInt(opts.pageSize);
-	        data.rows = (data.originalRows.slice(start, end));
-	        return data;
-        }
+		}
 	});
 }
 //查询

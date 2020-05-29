@@ -383,6 +383,11 @@ function radioOnClick(value){
 			endDate: $('#endMonth').datebox('getValue').replace("-",''),
 		}
 	});
+	if(value == 1){
+		$("#billAffirm_but").linkbutton('disable');
+	}else{
+		$("#billAffirm_but").linkbutton('enable');
+	}
 }
 function downLoadByUrl(url,token){
 	var xhr = new XMLHttpRequest();

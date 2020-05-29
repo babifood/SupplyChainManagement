@@ -86,7 +86,8 @@ function loadOrderStatusQueryData(){
 			
         ]],
 		onDblClickRow:function(rowIndex, rowData){
-			onDblClickRowFunction(rowIndex,rowData)//双击事件
+			$("#orderStatusQueryDetail_window").window("open").window("setTitle","订单明细信息");
+			loadOrderStatusQueryDetail(rowData.ordersId);
 		},
 		queryParams: {
 			endDate : $("#endDate").datebox('getValue'),	// 	截止日期 	否 	否 	yyyy-MM-dd 	
@@ -98,10 +99,10 @@ function loadOrderStatusQueryData(){
 			params.limit  = param.rows;
 			params.endDate = param.endDate==null||param.endDate==''||param.endDate==undefined?'':param.endDate;	// 	截止日期 	否 	否 		
 			params.startDate = param.startDate==null||param.startDate==''||param.startDate==undefined?'':param.startDate;	// 	开始日期 	否 	否 		
-			params.matterName = '';	// 	物料名称 	否 	否 		
-			params.orderId = '';	// 	订单id 	否 	否 		
+			params.matterName = ""	// 	物料名称 	否 	否 		
+			params.orderId = param.orderId==null||param.orderId==''||param.orderId==undefined?'':param.orderId;	// 	订单id 	否 	否 		
 			params.purchaser = '';	// 	采购员 	否 	否 		
-			params.supplierName = '';	// 	供应商名称 	否 	否 		
+			params.supplierName = param.supplierName==null||param.supplierName==''||param.supplierName==undefined?'':param.supplierName;	// 	供应商名称 	否 	否 		
 			$.ajax({
 				url: '/web/purchase/getPurchaseOrderInfoList',
 				type:"get",
@@ -125,17 +126,7 @@ function loadOrderStatusQueryData(){
 		}
 	});
 }
-//行双击事件
-function onDblClickRowFunction(rowIndex,rowData){
-	$("#orderStatusQueryDetail_window").window("open").window("setTitle","订单明细信息");
-	$('#orderStatusQueryDetail_dg').datagrid({
-		queryParams: {
-			orderId: rowData.orderId
-		}
-	 });
-    loadOrderStatusQueryDetail();
-}
-function loadOrderStatusQueryDetail(){
+function loadOrderStatusQueryDetail(ordersId){
     $("#orderStatusQueryDetail_dg").datagrid({
         loadMsg:"数据加载中......",
 		fit:true,
@@ -213,7 +204,7 @@ function loadOrderStatusQueryDetail(){
         ]],
         loader:function(param, success, error){
 			var params = {}; //声明一个对象
-			params.orderId = param.orderId;
+			params.ordersId = ordersId;
 			$.ajax({
 				url:'/web/purchase/getPurchaseOrderDetail',
 				type:"get",
@@ -240,16 +231,24 @@ function loadOrderStatusQueryDetail(){
 function searchFunction(){
 	var begDate = $("#begDate").datebox('getValue');
 	var endDate = $("#endDate").datebox('getValue');
+	var supplier = $("#supplier").textbox('getValue');
+	var orderCode = $("#orderCode").textbox('getValue');
 	$('#orderStatusQuery_dg').datagrid({
 		queryParams: {
 			endDate: endDate,
-			startDate:begDate
+			startDate:begDate,
+			supplierName:supplier,
+			orderId:orderCode
 		}
 	 });
 	
 }
 //重置
 function reset(){
-	$("#begDate").datebox('setValue',"");
-	$("#endDate").datebox('setValue',"");
+	var date = new Date();
+	thisDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+	$("#begDate").datebox('setValue',thisDate);
+	$("#endDate").datebox('setValue',thisDate);
+	$("#supplier").textbox('setValue',"");
+	$("#orderCode").textbox('setValue',"");
 }

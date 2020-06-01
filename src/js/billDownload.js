@@ -88,7 +88,7 @@ function loadBillDownloadData(){
 			var params = {}; //声明一个
 			params.page  = param.page;
 			params.limit  = param.rows;
-			params.yearMonth =	param.yearMonth;// 	年月 	否 	否 	202003 	
+			params.yearMonth =	param.yearMonth.replace("-",'');// 	年月 	否 	否 	202003 	
 			params.supplierName = param.supplierName;	// 	供应商名称 	否 	否 		
 			params.stateOrderId = param.stateOrderId;	// 	账单id 	否 	否		
 			$.ajax({
@@ -122,7 +122,7 @@ function loadBillDownloadData(){
 //查询
 function searchFunction(){
 	var supplier = $("#supplier").textbox('getValue');
-	var month = $("#month").datebox('getValue');
+	var month = $("#month").datebox('getValue').replace("-",'');
 	var accountCode = $("#accountCode").textbox('getValue');
 	$('#billDownload_dg').datagrid({
 		queryParams: {

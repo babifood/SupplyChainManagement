@@ -28,6 +28,12 @@ function loadInspectionSheetDownloadData(){
               width:20,
 			},
 			{  
+				title:'订单号',  
+				field:'orderNo',  
+				align:'center',
+				width:20,
+			  },
+			{  
 	          title:'发货物料',  
 	          field:'matterName',  
               align:'center',

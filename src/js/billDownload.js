@@ -1,6 +1,10 @@
 var ipAndPost = 'http://10.4.1.27:8582';
 $(function(){
 	setDateToMonth('month');
+	var data = new Date();
+	var year = data.getFullYear();
+	var month = data.getMonth()+1;
+	$('#month').datebox('setValue',year+'-'+month);
 	loadBillDownloadData();
 });
 function loadBillDownloadData(){
@@ -27,7 +31,7 @@ function loadBillDownloadData(){
               width:20,
 			},
 			{  
-	          title:'供应商描述',  
+	          title:'供应商',  
 	          field:'supplierName',  
               align:'center',
               width:20,
@@ -83,7 +87,10 @@ function loadBillDownloadData(){
 					}
 				}     
             }	
-        ]],
+		]],
+		queryParams: {
+			yearMonth: $('#month').datebox('getValue').replace("-",''),
+		},
         loader:function(param, success, error){
 			var params = {}; //声明一个
 			params.page  = param.page;
@@ -134,8 +141,11 @@ function searchFunction(){
 }
 //重置
 function reset(){
+	var data = new Date();
+	var year = data.getFullYear();
+	var month = data.getMonth()+1;
 	$("#supplier").textbox('setValue','');
- 	$("#month").datebox('setValue','');
+ 	$("#month").datebox('setValue',year+'-'+month);
 	$("#accountCode").textbox('setValue','');
 }
 //加载账单附件

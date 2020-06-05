@@ -91,7 +91,7 @@ function loginOut(){
         },
         success: function(obj) {
             sessionStorage.removeItem('token')
-            // window.location.href = '../src/index.html'
+            window.location.href = '../src/login.html'
         },
         error : function(e){
             console.log(e);

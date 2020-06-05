@@ -53,7 +53,7 @@ function loadShippingListQueryData(){
                 width:100,  
 			},
 			{  
-                title:'物料描述',  
+                title:'物料',  
                 field:'matterName',  
                 align:'center',
                 width:100,  

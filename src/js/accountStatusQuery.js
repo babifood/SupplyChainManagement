@@ -27,7 +27,7 @@ function loadAccountStatusQueryData(){
               width:100,
 			},
 			{  
-	          title:'供应商描述',  
+	          title:'供应商',  
 	          field:'supplierName',  
               align:'center',
               width:100,
@@ -66,7 +66,14 @@ function loadAccountStatusQueryData(){
                 title:'账单状态',  
                 field:'status',  
                 align:'center',
-                width:100,  
+				width:100,
+				formatter:function(value,row,index){
+					if (value === 0){
+						return '待确认';
+					} else if(value === 1){
+						return '已确认';
+					}
+				}    
 			},
 			{  
                 title:'创建时间',  
@@ -124,7 +131,7 @@ function loadAccountStatusQueryData(){
 }
 //行双击事件
 function onDblClickRowFunction(rowIndex,rowData){
-	$("#accountStatusQueryDetail_window").window("open").window("setTitle","订单明细信息");
+	$("#accountStatusQueryDetail_window").window("open").window("setTitle","账单明细信息");
 	// $('#accountStatusQuery_dg').datagrid({
 	// 	queryParams: {
 	// 		stateOrderId : rowData.statesId

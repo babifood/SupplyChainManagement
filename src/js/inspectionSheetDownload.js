@@ -34,7 +34,7 @@ function loadInspectionSheetDownloadData(){
 				width:20,
 			  },
 			{  
-	          title:'发货物料',  
+	          title:'物料',  
 	          field:'matterName',  
               align:'center',
               width:20,
@@ -70,7 +70,7 @@ function loadInspectionSheetDownloadData(){
                 width:20,  
             },
 			{  
-                title:'供应商描述',  
+                title:'供应商',  
                 field:'supplierName',  
                 align:'center',
                 width:20,  
@@ -91,8 +91,8 @@ function loadInspectionSheetDownloadData(){
         ]],
 		onClickRow:function(rowIndex, rowData){
 			if(rowData.fileStatus){
-				loadAccountData(rowData.deliveryId);
-				fileId = rowData.deliveryId;
+				loadAccountData(rowData.recordId);
+				fileId = rowData.recordId;
 			}
 		},
 		queryParams: {
@@ -157,7 +157,7 @@ function reset(){
 	$("#endDate").datebox('setValue',getNowFormatDate());
 }
 //加载账单附件
-function loadAccountData(deliveryId){
+function loadAccountData(recordId){
 	$("#account_dg").datagrid({
 		url:"",
 		fit:true,
@@ -187,10 +187,10 @@ function loadAccountData(deliveryId){
 		},
 		loader:function(param, success, error){
 			var params = {
-				orderId : deliveryId
+				recordId : recordId
 			}; //声明一个	
 			$.ajax({
-				url: '/web/file/findFilesOfOrder',
+				url: '/web/file/findFilesOfOrderRecord',
 				type:"get",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
@@ -200,7 +200,7 @@ function loadAccountData(deliveryId){
 				},
 				success: function(obj) {
                     var data = {
-						rows:obj.data.deliveryOrder.deliveryFile
+						rows:obj.data
 					}
                     success(data);
 				},

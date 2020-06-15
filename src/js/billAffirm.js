@@ -352,6 +352,7 @@ function saveFunction(){
 					timeout:3000,
 					showType:'slide'
 				});
+				$('#billAffirm_dg').datagrid('reload',{});	
 			}else{
 				$.messager.show({
 					title:'消息提醒',
@@ -417,7 +418,8 @@ function downLoadByUrl(url,token){
 	//发送请求
 	xhr.send();
 }
-function formatDate(time,format='YY-MM-DD hh:mm:ss'){
+function formatDate(time){
+	var format='YY-MM-DD hh:mm:ss';
 	var date = new Date(time);
 
 	var year = date.getFullYear(),
@@ -441,5 +443,15 @@ function formatDate(time,format='YY-MM-DD hh:mm:ss'){
 }
 //查看附件清单
 function lock(stetaId){
-	alert(stetaId)
+	var simg =  "http://10.1.1.46:8081/"+stetaId+".JPG";
+	$('#dlg').dialog({
+		title: '清单查看',
+		width: 600,
+		height:500,
+		resizable:true,
+		closed: false,
+		cache: false,
+		modal: true
+	});
+	$("#simg").attr("src",simg);	
 }

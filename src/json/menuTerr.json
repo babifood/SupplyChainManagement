@@ -5,23 +5,24 @@
     { "id": "4", "parentID": "1", "enCode": "OrleManage", "text": "角色管理", "iconCls": "icon-group", "url": "orleManage.html" },
     { "id": "5", "parentID": "1", "enCode": "UserManage", "text": "用户管理", "iconCls": "icon-user", "url": "userManage.html" },
     { "id": "6", "parentID": "1", "enCode": "UserStatusMonitoring", "text": "用户状态监控", "iconCls": "", "url": "userStatusMonitoring.html" },
+    { "id": "7", "parentID": "1", "enCode": "ProviderInvitationCode", "text": "用户邀请码", "iconCls": "", "url": "providerInvitationCode.html" },
 
-    { "id": "7", "parentID": "0", "enCode": "SysManage", "text": "基础数据", "iconCls": "", "url": ""},
-    { "id": "8", "parentID": "7", "enCode": "DeliveryMode", "text": "配送方式", "iconCls": "", "url": "deliveryMode.html" },
-    { "id": "9", "parentID": "7", "enCode": "CompanyOrganization", "text": "公司组织", "iconCls": "", "url": "companyOrganization.html" },
+    { "id": "8", "parentID": "0", "enCode": "SysManage", "text": "基础数据", "iconCls": "", "url": ""},
+    { "id": "9", "parentID": "8", "enCode": "DeliveryMode", "text": "配送方式", "iconCls": "", "url": "deliveryMode.html" },
+    { "id": "10", "parentID": "8", "enCode": "CompanyOrganization", "text": "公司组织", "iconCls": "", "url": "companyOrganization.html" },
 
-    { "id": "10", "parentID": "0", "enCode": "SysManage", "text": "业务管理", "iconCls": "", "url": ""},
-    { "id": "11", "parentID": "10", "enCode": "OrderAffirm", "text": "订单确认", "iconCls": "", "url": "orderAffirm.html" },
-    { "id": "12", "parentID": "10", "enCode": "DeliveryRelease", "text": "发货通知", "iconCls": "", "url": "deliveryRelease.html" },
-    { "id": "13", "parentID": "10", "enCode": "BillAffirm", "text": "账单确认", "iconCls": "", "url": "billAffirm.html" },
-    { "id": "14", "parentID": "10", "enCode": "BillAttachmentUpload", "text": "账单附件上传", "iconCls": "", "url": "billAttachmentUpload.html" },
-    { "id": "15", "parentID": "10", "enCode": "NotificationManage", "text": "通知管理", "iconCls": "", "url": "notificationManage.html" },
-    { "id": "16", "parentID": "10", "enCode": "BillDownload", "text": "账单附件下载", "iconCls": "", "url": "billDownload.html" },
-    { "id": "17", "parentID": "10", "enCode": "InspectionSheetDownload", "text": "检验单附件下载", "iconCls": "", "url": "inspectionSheetDownload.html" },
+    { "id": "11", "parentID": "0", "enCode": "SysManage", "text": "业务管理", "iconCls": "", "url": ""},
+    { "id": "12", "parentID": "11", "enCode": "OrderAffirm", "text": "订单确认", "iconCls": "", "url": "orderAffirm.html" },
+    { "id": "13", "parentID": "11", "enCode": "DeliveryRelease", "text": "发货通知", "iconCls": "", "url": "deliveryRelease.html" },
+    { "id": "14", "parentID": "11", "enCode": "BillAffirm", "text": "账单确认", "iconCls": "", "url": "billAffirm.html" },
+    { "id": "15", "parentID": "11", "enCode": "BillAttachmentUpload", "text": "账单附件上传", "iconCls": "", "url": "billAttachmentUpload.html" },
+    { "id": "16", "parentID": "11", "enCode": "NotificationManage", "text": "通知管理", "iconCls": "", "url": "notificationManage.html" },
+    { "id": "17", "parentID": "11", "enCode": "BillDownload", "text": "账单附件下载", "iconCls": "", "url": "billDownload.html" },
+    { "id": "18", "parentID": "11", "enCode": "InspectionSheetDownload", "text": "检验单附件下载", "iconCls": "", "url": "inspectionSheetDownload.html" },
 
-    { "id": "18", "parentID": "0", "enCode": "SysManage", "text": "查询中心", "iconCls": "", "url": ""},
-    { "id": "19", "parentID": "18", "enCode": "OrderStatusQuery", "text": "订单状态查询", "iconCls": "", "url": "orderStatusQuery.html" },
-    { "id": "20", "parentID": "18", "enCode": "ShippingListQuery", "text": "发货清单查询", "iconCls": "", "url": "shippingListQuery.html" },
-    { "id": "21", "parentID": "18", "enCode": "AccountStatusQuery", "text": "账单状态查询", "iconCls": "", "url": "accountStatusQuery.html" }
+    { "id": "19", "parentID": "0", "enCode": "SysManage", "text": "查询中心", "iconCls": "", "url": ""},
+    { "id": "20", "parentID": "19", "enCode": "OrderStatusQuery", "text": "订单状态查询", "iconCls": "", "url": "orderStatusQuery.html" },
+    { "id": "21", "parentID": "19", "enCode": "ShippingListQuery", "text": "发货清单查询", "iconCls": "", "url": "shippingListQuery.html" },
+    { "id": "22", "parentID": "19", "enCode": "AccountStatusQuery", "text": "账单状态查询", "iconCls": "", "url": "accountStatusQuery.html" }
 
 ]

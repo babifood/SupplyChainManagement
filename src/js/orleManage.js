@@ -178,9 +178,11 @@ function accept(dgId){
 		var url,msg;
 		var rowData =$('#'+dgId).datagrid('getSelected');
 		//获取选中公司ids
-		var companyRowData =$('#company_dg').datagrid('getSelections');
-		for(var i=0; i<companyRowData.length; i++){
-			companyArr.push(companyRowData[i].companyId)
+		if($('#company_dg').data != null){
+			var companyRowData =$('#company_dg').datagrid('getSelections');
+			for(var i=0; i<companyRowData.length; i++){
+				companyArr.push(companyRowData[i].companyId)
+			}
 		}
 		//获取PC端菜单数据
 		if($('#pcMenu_ul').data != undefined){
@@ -379,12 +381,10 @@ function loadCompany(){
 			{
 				field:"companyCode",
 				title:"公司代码",
-				width:100
 			},
 			{
 				field:"companyName",
 				title:"公司名称",
-				width:100
 			},
 			
 		]],
@@ -425,7 +425,7 @@ function convertNode(obj){
 	var node = new Array()
 	for(var i=0;i<obj.length;i++){
 		var item = {
-			id:obj[i].menuId,
+			id:obj[i].logicId,
 			text:obj[i].menuName,
 			state:'open',
 			checked:obj[i].status,

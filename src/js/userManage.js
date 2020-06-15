@@ -20,7 +20,7 @@ function loadRole(){
 		// pageSize : 10,
 		// pageList : [10, 20, 30 ],
 		// pageNumber:1,
-        singleSelect:true,
+        // singleSelect:true,
         checkOnSelect:true,
 		rownumbers:true,
 		columns:[[

@@ -1,0 +1,31 @@
+<!--供应商邀请码-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
+    <title>供应商邀请码</title>
+    
+</head>
+
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+		<table id="userStatusMonitoring_dg"></table>
+		<div id="userStatusMonitoring_tbar" style="padding: 5px;">
+			<div style="padding: 0 0 0 7px;color: #333;">
+				供应商编码：<input type="text" class="easyui-textbox" id="providerCode" name="providerCode" style="width: 160px;"/>
+				供应商：<input type="text" class="easyui-textbox" id="providerName" name="providerName" style="width: 160px;"/>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchFunction()">查询</a>
+	        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reset()">重置</a>
+	        </div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="easy-ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/providerInvitationCode.js"></script>
+</html>

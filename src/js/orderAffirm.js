@@ -330,7 +330,8 @@ function downLoadByUrl(url,token){
 	//发送请求
 	xhr.send();
 }
-function formatDate(time,format='YY-MM-DD hh:mm:ss'){
+function formatDate(time){
+	var format='YY-MM-DD hh:mm:ss';
 	var date = new Date(time);
 
 	var year = date.getFullYear(),

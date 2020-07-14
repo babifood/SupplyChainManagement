@@ -328,9 +328,9 @@ function removeit(dgId){
 	var rowData =$('#'+dgId).datagrid('getSelected');
 	var index = $('#'+dgId).datagrid("getRowIndex",rowData);
 	var node = $('#'+dgId).datagrid("getChecked");
-	var data = {
-		userId:rowData.userId
-	}
+	// var data = {
+	// 	userId:rowData.userId
+	// }
 	$.messager.confirm("提示","确定要删除此数据？",function(r){
 		if(r){
 			$.ajax({
@@ -338,13 +338,13 @@ function removeit(dgId){
 				type:"post",
 				//请求的媒体类型
 				contentType: "application/json;charset=UTF-8",
-				data : JSON.stringify(data),
+				data : rowData.userId,
 				headers: {
 					'token':sessionStorage.getItem('token')
 				},
 				beforeSend:function(){
 					$.messager.progress({
-						text:'删除中......',
+						text:'禁用中......',
 					});
 				},
 				success: function(obj) {
@@ -352,7 +352,7 @@ function removeit(dgId){
 					if(obj.code == "200"){
 						$.messager.show({
 							title:'消息提醒',
-							msg:'删除成功!',
+							msg:'禁用成功!',
 							timeout:3000,
 							showType:'slide'
 						});

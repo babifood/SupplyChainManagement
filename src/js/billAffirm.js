@@ -443,7 +443,7 @@ function formatDate(time){
 }
 //查看附件清单
 function lock(stetaId){
-	var simg =  "http://10.1.1.46:8081/"+stetaId+".JPG";
+	var simg =  "http://122.144.202.58:8081/"+stetaId+".JPG";
 	$('#dlg').dialog({
 		title: '清单查看',
 		width: 600,

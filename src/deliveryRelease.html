@@ -8,19 +8,23 @@
     <link rel="stylesheet" type="text/css" href="easy-ui/themes/icon.css"/>
     <title>发货通知</title>
 </head>
-<body class="easyui-layout">
-    <div data-options="region:'north',border:false" style="height:50%">
-        <table id="deliveryReleaseShwo_dg"></table>
+<body class="easyui-layout" style="width: 100%;">
+    <div data-options="region:'center'" >
+        <table id="deliveryReleaseShwo_dg"></table>   
     </div>
-    <div data-options="region:'center'">
+    <div data-options="region:'south',border:false" style="height:58%">
         <table id="deliveryReleaseOperation_dg"></table>
         <div id="deliveryReleaseOperation_tbar" style="padding: 5px;">
             <div style="padding: 0 0 0 7px;color: #333;margin-top: 3px;">
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addFunction()">添加</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="removeFunction()">取消</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="saveFunction()">保存</a>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="expectTime" type="text" class="easyui-datetimebox" data-options="required:true,label:'到货时间',panelHeight:260"  style="width:250px;">
+					<input id="shippingMethod" type="text" class="easyui-combobox" data-options="label:'配送方式',required:true,panelHeight:260">
+					<input id="description" type="text" class="easyui-textbox" data-options="label:'备注说明:'" style="width:300px">				
 	        </div>
-		</div>    
+		</div>
     </div>
     <div id="files_dog" class="easyui-dialog" closed="true" title="附件上传列表" data-options="modal: true" buttons="#files_dlg_buttons" style="width: 600px;">
         <div style="margin: 0;padding: 20px 50px;">
@@ -36,6 +40,9 @@
   <div id="files_dlg_buttons" style="text-align: center;">
       <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveFiles()" style="width: 90px;">保存</a>
       <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#files_dog').dialog('close')" style="width: 90px;">取消</a>
+	  
+
+				
   </div> 
 </body>
     <script type="text/javascript" charset="utf-8" src="easy-ui/jquery.min.js"></script>

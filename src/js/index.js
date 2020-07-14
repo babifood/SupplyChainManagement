@@ -16,34 +16,60 @@ function RightAccordion(){
         border:false,
         animate:false  
     });
-    $.get("json/menuTerr.json",{"menuID":"0"}, //获取第一层目录
-            function (data) {
-                var topMenu =  filtrationJson(data,"0")
-                $.each(topMenu, function (i, e) {//循环创建手风琴的项
-                    var id = e.id;
-                    $('#RightAccordion').accordion('add', {
-                        title: e.text,
-                        content: "<ul id='tree"+id+"' ></ul>",
-                        selected: true,
-                        iconCls:e.iconCls//e.Icon
-                    });
-                    $.parser.parse();
-                    var treeMenu = filtrationJson(data,id)
-                    $("#tree" + id).tree({
-                        data: treeMenu,  
-                        onClick:function(node){
-                            if(node.url){
-                                 if($('#tabs').tabs('exists',node.text)){
-                                     $('#tabs').tabs('select',node.text);
-                                 }else{
-                                     addTab(node.text,node.url,node.iconCls);
-                                 }
-                             }
-                        }
-                    });     
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    var menus = convertNode(userInfo.menus);
+    var topMenu =  filtrationJson(menus,"0")
+    $.each(topMenu, function (i, e) {//循环创建手风琴的项
+        var id = e.id;
+        $('#RightAccordion').accordion('add', {
+            title: e.text,
+            content: "<ul id='tree"+id+"' ></ul>",
+            selected: true,
+            iconCls:e.iconCls//e.Icon
+        });
+        $.parser.parse();
+        var treeMenu = filtrationJson(e.children,id)
+        $("#tree" + id).tree({
+            data: treeMenu,  
+            onClick:function(node){
+                if(node.attributes.url){
+                     if($('#tabs').tabs('exists',node.text)){
+                         $('#tabs').tabs('select',node.text);
+                     }else{
+                         addTab(node.text,node.attributes.url,node.iconCls);
+                     }
+                 }
+            }
+        });
+    });                      
+    // $.get("json/menuTerr.json",{"menuID":"0"}, //获取第一层目录
+    //         function (data) {
+    //             var topMenu =  filtrationJson(data,"0")
+    //             $.each(topMenu, function (i, e) {//循环创建手风琴的项
+    //                 var id = e.id;
+    //                 $('#RightAccordion').accordion('add', {
+    //                     title: e.text,
+    //                     content: "<ul id='tree"+id+"' ></ul>",
+    //                     selected: true,
+    //                     iconCls:e.iconCls//e.Icon
+    //                 });
+    //                 $.parser.parse();
+    //                 var treeMenu = filtrationJson(data,id)
+    //                 $("#tree" + id).tree({
+    //                     data: treeMenu,  
+    //                     onClick:function(node){
+    //                         if(node.url){
+    //                              if($('#tabs').tabs('exists',node.text)){
+    //                                  $('#tabs').tabs('select',node.text);
+    //                              }else{
+    //                                  addTab(node.text,node.url,node.iconCls);
+    //                              }
+    //                          }
+    //                     }
+    //                 });     
                   
-                });
-            }, "json");
+    //             });
+    //         }, "json");
 }
 /**
 * Name 添加菜单选项 Param title 名称 Param href 链接 Param iconCls 图标样式 Param iframe
@@ -72,7 +98,7 @@ function filtrationJson(data,parentID){
     var returnData = new Array();
     var index = 0;
     $.each(data, function (i, e) {
-        if(e.parentID==parentID){
+        if(e.attributes.parentId==parentID){
             returnData[index] = e;
             index++;
         }
@@ -150,4 +176,28 @@ function updateNewPsd(){
 			console.log(e);
 		}
 	})
+}
+
+//书节点装换
+function convertNode(obj){
+	var node = new Array()
+	for(var i=0;i<obj.length;i++){
+		var item = {
+			id:obj[i].menuId,
+			text:obj[i].menuName,
+			state:'open',
+			checked:obj[i].status,
+			iconCls:obj[i].icon,
+			attributes:{
+				url:obj[i].url,
+                channel:obj[i].channel,
+                parentId:obj[i].parentId
+			},
+			children:obj[i].menuInfoVoList == null
+			||obj[i].menuInfoVoList == undefined
+			||obj[i].menuInfoVoList.length<=0?[]:convertNode(obj[i].menuInfoVoList)
+		}
+		node.push(item);
+	}
+	return node;
 }
